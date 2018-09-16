@@ -2,8 +2,6 @@
 layout: default
 ---
 
-<!DOCTYPE html>
-
 <html> 
 
 <head> 
@@ -14,7 +12,7 @@ layout: default
 
 <h1> Team 12 CS 499 </h1>
 
-This is my first web page and I can say anything I want in here - I do that by putting text or images in the body section - where I'm typing right now :) 
+Home Page
 
 </body>
 
