@@ -14,6 +14,8 @@ layout: default
 
 Home Page
 
+<a href="about.html" title="About">About</a>
+
 </body>
 
 </html>
