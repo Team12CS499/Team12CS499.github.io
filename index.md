@@ -14,7 +14,7 @@ layout: default
 
 Home Page
 
-<a href="about.md" title="About">About</a>
+<a href="about.html" title="About">About</a>
 
 </body>
 
