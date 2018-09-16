@@ -12,8 +12,6 @@ layout: default
 
 <h1> Team 12 CS 499 </h1>
 
-Home Page
-
 <a href="about.html" title="About">About</a> <p></p>
 
 <a href="Defler.html" title="Defler">Defler</a> <p></p>
