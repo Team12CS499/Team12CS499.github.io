@@ -12,7 +12,7 @@ layout: default
 
 <h1> Williams </h1>
 
-This is the page for Austin Williams
+16SEP2018 - Today I wrote the System Model, User Interaction, and Functional Requirements for the Requirements Specification (totaling 603 words) and also designed the team logo.
 
 </body>
 
