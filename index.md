@@ -14,11 +14,12 @@ layout: default
 
 <a href="about.html" title="About">About</a> <p></p>
 
-<a href="Defler.html" title="Defler">Defler</a> <p></p>
+Team members:
+<a href="Defler.html" title="Defler">Kyle Defler</a> <p></p>
 
-<a href="Nelson.html" title="Nelson">Nelson</a> <p></p>
+<a href="Nelson.html" title="Nelson">Kyle Nelson</a> <p></p>
 
-<a href="Williams.html" title="Williams">Williams</a> <p></p>
+<a href="Williams.html" title="Williams">Austin Williams</a> <p></p>
 
 </body>
 
