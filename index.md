@@ -14,7 +14,7 @@ layout: default
 
 <a href="about.html" title="About">About</a> <p></p>
 
-Team members:
+Team members: <p></p>
 <a href="Defler.html" title="Defler">Kyle Defler</a> <p></p>
 
 <a href="Nelson.html" title="Nelson">Kyle Nelson</a> <p></p>
