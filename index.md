@@ -14,6 +14,10 @@ layout: default
 
 <a href="about.html" title="About">About</a> <p></p>
 
+<a href="schedule.html" title="Schedule">Schedule</a> <p></p>
+
+<a href="about.html" title="About">About</a> <p></p>
+
 Team members: <p></p>
 <a href="Defler.html" title="Defler">Kyle Defler</a> <p></p>
 
