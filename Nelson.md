@@ -25,7 +25,7 @@ We are assuming that the ARCore image identification software will be insufficie
 <p></p>
 My primary contributions over the previous weeks have been visual elements. I constructed the domain model diagram, after consulting online resources regarding proper implimentation. The description for the domain model diagram is 136 words. I also constructed a mockup of the user interface for the program. I have also been reviewing the metrics we initially stipulated, and found that while the approximate manhour breakdown is still feasible, the user story format for the product size estimate is no longer viable. In stead we have switched to a method approximation approach. These revised metrics account for 104 words.
 <p></p>
-I also wrote the testing portion of the presentation. Defler and I collaborated on the exact testing requirements, with him writing the long winded version for the document, and I the short version for the slides. This accounts for 124 words.
+I also wrote the testing portion of the presentation. Defler and I collaborated on the exact testing requirements, with him writing the long winded version for the document, and I the short version for the slides. This accounts for 124 words. An addition 101 words come from the review and defects section.
 
 </body>
 
