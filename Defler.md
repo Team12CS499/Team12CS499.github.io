@@ -24,7 +24,7 @@ Additionally, I have created this team website. This website is built off of the
 <p></p>
 Kyle Nelson, Austin Williams and I met on Friday (September 28th) to work on the Architecture assignment. I completed the Testing portion of the assignment (614 words), and began work on editing the website. 
 <p></p>
-During our digitial group meeting on the afternoon of September 30th, I made edits to the Testing portion of the Architecture Assignment, took an example photo of playing cards on a table for the use of the User Interface draft, and made the edits to the project website. Edits I made to the website include adding the pages for the Scedule, the Requirments (which used parts of the Project Plan assignment, and adding the contact information to the home page. During this meeting we also discussed how we will go about creating our Hand Finding algorithm.
+During our digitial group meeting on the afternoon of September 30th, I made edits to the Testing portion of the Architecture Assignment, took an example photo of playing cards on a table for the use of the User Interface draft, and made the edits to the project website. Edits I made to the website include adding the pages for the Scedule, the Requirments (which used parts of the Project Plan assignment, and adding the contact information to the home page (122 words). During this meeting we also discussed how we will go about creating our Hand Finding algorithm.
 <p></p>
 
 </body>
