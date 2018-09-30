@@ -22,7 +22,7 @@ Additionally, I have created this team website. This website is built off of the
 <p></p>
 <h2>DevNote 9/30</h2>
 <p></p>
-Kyle Nelson, Austin Williams and I met on Friday (September 28th) to work on the Architecture assignment. I completed the Testing portion of the assignment (614 words), and began work on editing the website. 
+Kyle Nelson, Austin Williams and I met on Friday (September 28th) to work on the Architecture assignment. I completed the Testing portion of the assignment (637 words), and began work on editing the website. 
 <p></p>
 During our digitial group meeting on the afternoon of September 30th, I made edits to the Testing portion of the Architecture Assignment, took an example photo of playing cards on a table for the use of the User Interface draft, and made the edits to the project website. Edits I made to the website include adding the pages for the Scedule, the Requirments (which used parts of the Project Plan assignment, and adding the contact information to the home page (122 words). Additionally, I contributed to making our Powerpoint for our presentation, making the Project Overview, Tools Used, and Architecture slides (81 words.) During this meeting we also discussed how we will go about creating our Hand Finding algorithm.
 <p></p>
