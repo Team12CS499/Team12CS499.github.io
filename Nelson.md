@@ -27,6 +27,10 @@ My primary contributions over the previous weeks have been visual elements. I co
 <p></p>
 I also wrote the testing portion of the presentation. Defler and I collaborated on the exact testing requirements, with him writing the long winded version for the document, and I the short version for the slides. This accounts for 124 words. An addition 101 words come from the review and defects section.
 
+<h2>DevNote 10/12</h2>
+<p></p>
+The presentation went well last Friday, and our evaluation sheets reflect that. I have been busy gathering and labeling reference images for the ARCore software. Currently I only have one set of images. There are 5 pictures of each card in this set, all on a high contrast black background. The first angle is flat to the cards face, the second is at an approximately 45 degree angle, the third is at an extreme approximately 25 degree angle, the fourth and fifth are both taken with the card diagonal to the camera. Each image is named starting with the number of letter corrisponding to its value ("2" for a 2, "A" for an ace, etc.) and the suit seperated by an underscore. All letters are capitalized. For example, the Ace of Spades pictures are labeled "A_SPADES" plus a number to differentiate them. I will wait to see if ARCore requires more samples before gather other sets. I will also have to determine if Windows' automatic numbering system, which makes use of spaces in the filenames, will cause problems in parsing the filenames.
+
 </body>
 
 </html>
