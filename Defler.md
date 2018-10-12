@@ -27,6 +27,13 @@ Kyle Nelson, Austin Williams and I met on Friday (September 28th) to work on the
 During our digitial group meeting on the afternoon of September 30th, I made edits to the Testing portion of the Architecture Assignment, took an example photo of playing cards on a table for the use of the User Interface draft, and made the edits to the project website. Edits I made to the website include adding the pages for the Scedule, the Requirments (which used parts of the Project Plan assignment, and adding the contact information to the home page (122 words). Additionally, I contributed to making our Powerpoint for our presentation, making the Project Overview, Tools Used, and Architecture slides (81 words.) During this meeting we also discussed how we will go about creating our Hand Finding algorithm.
 <p></p>
 
+<h2>DevNote 10/12</h2>
+<p></p>
+Kyle Nelson, Austin Williams and I met a few times, both in person and in a digital conference call, to work on the content, practice, and present our presentation of our project so far.  
+<p></p>
+Additionally, Kyle Nelson and I meet on Wednesday (October 12th) to work on the code of the actual project. I provided the cards for Kyle to use for him gathering the image dataset of cards. I began creating a "hello world" sort of program so that we have a solid foundation to work on. While working on getting the AR Core implimented, a software bugged when trying to push the.apk file to my Android phone for testing caused several crashes in Windows. This part of the project is being picked up by Austin, and I will be working on implimenting the ML Kit for image labeling from this point on.
+<p></p>
+
 </body>
 
 </html>
