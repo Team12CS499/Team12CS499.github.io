@@ -31,6 +31,8 @@ I also wrote the testing portion of the presentation. Defler and I collaborated 
 <p></p>
 The presentation went well last Friday, and our evaluation sheets reflect that. I have been busy gathering and labeling reference images for the ARCore software. Currently I only have one set of images. There are 5 pictures of each card in this set, all on a high contrast black background. The first angle is flat to the cards face, the second is at an approximately 45 degree angle, the third is at an extreme approximately 25 degree angle, the fourth and fifth are both taken with the card diagonal to the camera. Each image is named starting with the number of letter corrisponding to its value ("2" for a 2, "A" for an ace, etc.) and the suit seperated by an underscore. All letters are capitalized. For example, the Ace of Spades pictures are labeled "A_SPADES" plus a number to differentiate them. I will wait to see if ARCore requires more samples before gather other sets. I will also have to determine if Windows' automatic numbering system, which makes use of spaces in the filenames, will cause problems in parsing the filenames.
 
+I've floated the possible stretch goal of inserting Gin Rummy as a non-Poker stretch goal. This of course depends on the comming weeks. In the coming week I will either continue to add to the library of reference images, or create the data structures necessary to operate the hand classifying algorithm. This depends on whether ARCore requires more images or not. This marks the end of Scrumm Cycle ONE.
+
 </body>
 
 </html>
