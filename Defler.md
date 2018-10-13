@@ -29,9 +29,9 @@ During our digitial group meeting on the afternoon of September 30th, I made edi
 
 <h2>DevNote 10/12</h2>
 <p></p>
-Kyle Nelson, Austin Williams and I met a few times, both in person and in a digital conference call, to work on the content, practice, and present our presentation of our project so far.  
+Kyle Nelson, Austin Williams and I met a few times, both in person and in a digital conference call, to work on the content, practice, and present our presentation of our project so far. The presentation went well, and I feel we presented the project well.
 <p></p>
-Additionally, Kyle Nelson and I meet on Wednesday (October 12th) to work on the code of the actual project. I provided the cards for Kyle to use for him gathering the image dataset of cards. I began creating a "hello world" sort of program so that we have a solid foundation to work on. While working on getting the AR Core implimented, a software bugged when trying to push the.apk file to my Android phone for testing caused several crashes in Windows. This part of the project is being picked up by Austin, and I will be working on implimenting the ML Kit for image labeling from this point on.
+Additionally, Kyle Nelson and I meet on Wednesday (October 12th) to work on the code of the actual project. I provided the cards for Kyle to use for him gathering the image dataset of cards. I began creating a "hello world" sort of program so that we have a solid foundation to work on. While working on getting the AR Core implimented, a software bugged when trying to push the.apk file to my Android phone for testing caused several crashes in Windows. This part of the project is being picked up by Austin, and I will be working on implimenting the ML Kit for image labeling from this point on. This software will be plugging into
 <p></p>
 
 </body>
