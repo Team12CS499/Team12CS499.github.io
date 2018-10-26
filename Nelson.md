@@ -33,6 +33,14 @@ The presentation went well last Friday, and our evaluation sheets reflect that. 
 
 I've floated the possible stretch goal of inserting Gin Rummy as a non-Poker stretch goal. This of course depends on the comming weeks. In the coming week I will either continue to add to the library of reference images, or create the data structures necessary to operate the hand classifying algorithm. This depends on whether ARCore requires more images or not. This marks the end of Scrumm Cycle ONE.
 
+<h2>DevNote 10/26</h2>
+<p></p>
+The past few weeks have been spent writing the skeleton for the hand determination metod. This has been pushed up in the schedule due to delays in the card identification software, which make it impractical for me to expand our machine learning training image library.
+
+With the basic outline complete, my focus has now shifted to creating a robust unit test for the method, so that I can test it as I write. So far I have succeeded in creating a method to generate random cards, but what we need is to generate hands that we know have certain properties. That is to say, that we want to be able to create a hand that we know is a flush or a straight, etc. as needed for testing. This has proven somewhat more time consuming for straights and matching kinds, as we don't want all of the relivant cards to necessarily be adjacent one another.
+
+An interesting side note is that I have devised a simple way to make aces high or low as needed. Whenever using the ACE constant we can add (13 * ACE_HIGH), where ACE_HIGH is either 1 if it is high, or 0 if not. This would provide a simple method of accomidating the two styles of play.
+
 </body>
 
 </html>
