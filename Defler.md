@@ -34,6 +34,12 @@ Kyle Nelson, Austin Williams and I met a few times, both in person and in a digi
 Additionally, Kyle Nelson and I meet on Wednesday (October 12th) to work on the code of the actual project. I provided the cards for Kyle to use for him gathering the image dataset of cards. I began creating a "hello world" sort of program so that we have a solid foundation to work on. While working on getting the AR Core implimented, a software bugged when trying to push the.apk file to my Android phone for testing caused several crashes in Windows. This part of the project is being picked up by Austin, and I will be working on implimenting the ML Kit for image labeling from this point on. This software will be plugging into
 <p></p>
 
+<h2>DevNote 10/30</h2>
+<p></p>
+Kyle Nelson, Austin Williams and I met once in person on October 17th. At that meeting we gave an update on what each of us was doing for the project, and what we were planning on working in the near future.
+<p></p>
+For my part, I have being going through Google's Firebase GitHub repository and other sources of open source machine learning code. I have collected several pages of Java code I believe will help us succeed. 
+
 </body>
 
 </html>
