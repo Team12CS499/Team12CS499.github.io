@@ -1,3 +1,7 @@
+//KYLE R NELSON
+//UNIVERSITY OF KENTUCKY
+//CS 499 Fall 2018
+
 //This class will contain card data
 //This will include the suit and value of the given card
 //Each field is stored as a byte, with corresponding constants
