@@ -35,11 +35,24 @@ I've floated the possible stretch goal of inserting Gin Rummy as a non-Poker str
 
 <h2>DevNote 10/26</h2>
 <p></p>
-The past few weeks have been spent writing the skeleton for the hand determination metod. This has been pushed up in the schedule due to delays in the card identification software, which make it impractical for me to expand our machine learning training image library.
+The past few weeks have been spent writing the skeleton for the hand determination method. This has been pushed up in the schedule due to delays in the card identification software, which make it impractical for me to expand our machine learning training image library.
 
 With the basic outline complete, my focus has now shifted to creating a robust unit test for the method, so that I can test it as I write. So far I have succeeded in creating a method to generate random cards, but what we need is to generate hands that we know have certain properties. That is to say, that we want to be able to create a hand that we know is a flush or a straight, etc. as needed for testing. This has proven somewhat more time consuming for straights and matching kinds, as we don't want all of the relivant cards to necessarily be adjacent one another.
 
 An interesting side note is that I have devised a simple way to make aces high or low as needed. Whenever using the ACE constant we can add (13 * ACE_HIGH), where ACE_HIGH is either 1 if it is high, or 0 if not. This would provide a simple method of accomidating the two styles of play.
+
+<h2>DevNote 11/4</h2>
+<p></p>
+I feel I should start this entry by mentioning the reason for assigning ACE the default value of 1, rather than 0 or 14. While it may not be relivant in most types of poker, the value of ACE at 1 rather than 0 is important to the scoring of other card games such as Gin Rummy. As for not setting ACE high by default, it is easier in my mind to remember to add 13 when ace is high rather than subtract when it is low. Additionally, many other games rely on ace being low by default including variants of poker.
+
+On to the stuff I haven't reported before:
+I was pleasantly surprised to find that Java has created a much more convenient way to generate random numbers since I last used that function back in High School. Now I don't have to do all the explicit casting shinanigans just to get an integer! 
+
+I have decided to consider a Royal Flush as a form of Straight Flush. If we wish to differentiate them later, we will make the distinction based on the highest card. This is better, considering that the definition of Royal Flush changes depending on whether ACE is high or low.
+
+Creating methods to generate random hands without either A. simulating a full deck or B. introducing unpredictable runtime as random numbers are compared against one another rapidly was difficult. For testing purposes I settled on using the Durstenfeld version of the Fisher-Yates shuffle only on the potential indices of the hand, and then manually changing the cards within these indices as needed. I managed to avoid having to do a shuffle on the cards in the 2 pair and full house generations by simply incrimenting one of the values in the case the pairs were equal. This works since the highest value, 14 for ACE_HIGH, is not randomly generated.
+
+Generally, rather than take shortcuts assuming the hand will always be size five, I left room in the random hand generation methods to allow for changes in hand size if necessary later. Currently the size is hard coded at five, but this approach means that making the generation methods more flexible will be relatively simple.
 
 </body>
 
