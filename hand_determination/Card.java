@@ -2,6 +2,8 @@
 //UNIVERSITY OF KENTUCKY
 //CS 499 Fall 2018
 
+package handDetermination;
+
 //This class will contain card data
 //This will include the suit and value of the given card
 //Each field is stored as a byte, with corresponding constants
@@ -22,10 +24,13 @@ public class Card
 	//If you wish for aces to be flexibly high or low,
 	//I would suggest adding 13 * ACE_HIGH whenever using ACE,
 	//where ACE_HIGH is either 1 if it is high, or 0 if not
+	//e.g. value = Card.ACE + (13 * ACE_HIGH)
 	public static final byte ACE = 1;
 	public static final byte JACK = 11;
 	public static final byte QUEEN = 12;
 	public static final byte KING = 13;
+	public static final byte ACE_HIGH = 14;
+
 	
 	//now for the private members that identify a card
 	byte value;
@@ -38,6 +43,12 @@ public class Card
 	{
 		this.value = Value;
 		this.suit = Suit;
+	}
+	
+	//print a bare bones line describing the value and suit as raw numbers
+	public void print()
+	{
+		System.out.println( "( " + this.value + " of " + this.suit + " )" );
 	}
 	
 	//the getters and setters have been automatically generated
