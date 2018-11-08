@@ -25,7 +25,7 @@ We are assuming that the ARCore image identification software will be insufficie
 <p></p>
 My primary contributions over the previous weeks have been visual elements. I constructed the domain model diagram, after consulting online resources regarding proper implimentation. The description for the domain model diagram is 136 words. I also constructed a mockup of the user interface for the program. I have also been reviewing the metrics we initially stipulated, and found that while the approximate manhour breakdown is still feasible, the user story format for the product size estimate is no longer viable. In stead we have switched to a method approximation approach. These revised metrics account for 104 words.
 <p></p>
-I also wrote the testing portion of the presentation. Defler and I collaborated on the exact testing requirements, with him writing the long winded version for the document, and I the short version for the slides. This accounts for 124 words. An addition 101 words come from the review and defects section.
+I also wrote the testing portion of the presentation. Defler and I collaborated on the exact testing requirements, with him writing the long winded version for the document, and I the short version for the slides. This accounts for 124 words. An addition 101 words come from the review and defects section. This brings the running total to 1366 words thus far (not including this document, which will be counted at the end).
 
 <h2>DevNote 10/12</h2>
 <p></p>
@@ -53,6 +53,14 @@ I have decided to consider a Royal Flush as a form of Straight Flush. If we wish
 Creating methods to generate random hands without either A. simulating a full deck or B. introducing unpredictable runtime as random numbers are compared against one another rapidly was difficult. For testing purposes I settled on using the Durstenfeld version of the Fisher-Yates shuffle only on the potential indices of the hand, and then manually changing the cards within these indices as needed. I managed to avoid having to do a shuffle on the cards in the 2 pair and full house generations by simply incrimenting one of the values in the case the pairs were equal. This works since the highest value, 14 for ACE_HIGH, is not randomly generated.
 
 Generally, rather than take shortcuts assuming the hand will always be size five, I left room in the random hand generation methods to allow for changes in hand size if necessary later. Currently the size is hard coded at five, but this approach means that making the generation methods more flexible will be relatively simple.
+
+<h2>DevNote 11/8</h2>
+<p></p>
+I have decided that having a proper hand class to use and store the hand type is probably the best option in the long term. For this I have created byte constants similar to those for the card suit and value that shall store the rank. Unlike the value for the cards, the rank is inverted so that the lower the number the greater the rank.
+
+I have consolidated the determination methods, so now there is a single method that must be called to determine the rank of a given hand as expressed as an array of cards. It is this method that I will have to use to test for potentially dangerous false positives. I doubt I will come across any, as the absence of any false negatives makes it extremely difficult for a potential false positive to reach further methods. That is to say that a greater value hand will be immediately identified as such, so the methods for identifying other hands will not be called to test it.
+
+I've yet to find a way to fully automate the search for false positives, so I have settled for randomly generating hands and manually checking any matches that come up for each possible hand rank. This can be a tedious process but the only other way I could see to create a reliable automated test would be to have some sort of oracle set to check against. Said set could not encompass a significant portion of the possible arrangements of cards, so would be even less robust than the current system. I should have a final version of this portion of the project tomorrow, whose test results I will record, and then submit a wordcount on the comments.
 
 </body>
 
