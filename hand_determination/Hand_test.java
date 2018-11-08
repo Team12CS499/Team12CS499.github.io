@@ -15,17 +15,17 @@ public class Hand_test
 	//Generate random five of a kind hand
 	static Card[] randomFiveOfAKind()
 	{
-		//Hand will contain the generated Five of a Kind Hand
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated Five of a Kind testHand
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now pick two different indices to be the three matching cards
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -33,7 +33,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -41,42 +41,42 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//now set the value of the card at the second and third indices to that of the first
-		Hand[Index[4]].value = Hand[Index[3]].value = Hand[Index[2]].value = Hand[Index[1]].value = Hand[Index[0]].value;
+		testHand[Index[4]].value = testHand[Index[3]].value = testHand[Index[2]].value = testHand[Index[1]].value = testHand[Index[0]].value;
 		
 		//This is guaranteed to return a hand with five of a kind
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random straight flush
 	static Card[] randomStraightFlush()
 	{
-		//Hand will contain the generated straight flush
-		Card[] Hand = randomStraight();
+		//testHand will contain the generated straight flush
+		Card[] testHand = randomStraight();
 		
 		//now change all the suits to that of the first card
-		for(int c = 1; c < Hand.length; c++)
+		for(int c = 1; c < testHand.length; c++)
 		{
-			Hand[c].suit = Hand[0].suit;
+			testHand[c].suit = testHand[0].suit;
 		}
 		
 		//The returned hand is guaranteed to be a straight flush
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random four of a kind
 	static Card[] randomFourOfAKind()
 	{
-		//Hand will contain the generated four of a kind
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated four of a kind
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now pick two different indices to be the three matching cards
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -84,7 +84,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -92,26 +92,26 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//now set the value of the card at the second and third indices to that of the first
-		Hand[Index[3]].value = Hand[Index[2]].value = Hand[Index[1]].value = Hand[Index[0]].value;
+		testHand[Index[3]].value = testHand[Index[2]].value = testHand[Index[1]].value = testHand[Index[0]].value;
 		
 		//the hand is guaranteed to have four cards of a kind
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random Full House
 	static Card[] randomFullHouse()
 	{
-		//Hand will contain the generated full house
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated full house
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -119,7 +119,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -127,57 +127,57 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//now set the value of the card at the second index to that of the first
-		Hand[Index[1]].value = Hand[Index[0]].value;
+		testHand[Index[1]].value = testHand[Index[0]].value;
 		//check that the third index does not have the same value as the first
-		if(Hand[Index[2]].value == Hand[Index[0]].value)
+		if(testHand[Index[2]].value == testHand[Index[0]].value)
 		{
 			//if the values are the same, increment the value on the third
 			//this ensures that the values are not the same, 
 			//and they will never exceed the maximum value (since a high ace is not generated randomly)
-			Hand[Index[2]].value++;
+			testHand[Index[2]].value++;
 		}
 		//now set the value of the card at the fourth and fifth indices to that of the third
-		Hand[Index[4]].value = Hand[Index[3]].value = Hand[Index[2]].value;
+		testHand[Index[4]].value = testHand[Index[3]].value = testHand[Index[2]].value;
 		
 		//the returned hand is guaranteed to be a full house
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random Flush
 	static Card[] randomFlush()
 	{
-		//Hand will contain the generated Flush
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated Flush
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now change all the suits to that of the first card
-		for(int c = 1; c < Hand.length; c++)
+		for(int c = 1; c < testHand.length; c++)
 		{
-			Hand[c].suit = Hand[0].suit;
+			testHand[c].suit = testHand[0].suit;
 		}
 		
 		//the hand is now guaranteed to be a flush
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random Straight
 	static Card[] randomStraight()
 	{
-		//Hand will contain the generated Straight
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated Straight
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now pick two different indices to be the three matching cards
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -185,7 +185,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -193,34 +193,34 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//check if the value of the first index is too great for a straight, and reduce it if so
-		if(Hand[Index[0]].value > 10)
+		if(testHand[Index[0]].value > 10)
 			//reduce by a random number between 1 and 10
-			Hand[Index[0]].value -= (byte)ThreadLocalRandom.current().nextInt(1, 11);
+			testHand[Index[0]].value -= (byte)ThreadLocalRandom.current().nextInt(1, 11);
 		
 		//now set the card at each subsequent index to one more than the previous
 		for(int c = 1; c < Index.length; c++)
 		{
-			Hand[Index[c]].value = (byte)(Hand[Index[c - 1]].value + 1);
+			testHand[Index[c]].value = (byte)(testHand[Index[c - 1]].value + 1);
 		}
 		
 		//The returned hand is guaranteed to be a straight
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random Three of a Kind
 	static Card[] randomThreeOfAKind()
 	{
-		//Hand will contain the generated Three of a kind
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated Three of a kind
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now pick two different indices to be the three matching cards
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -228,7 +228,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -236,26 +236,26 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//now set the value of the card at the second and third indices to that of the first
-		Hand[Index[2]].value = Hand[Index[1]].value = Hand[Index[0]].value;
+		testHand[Index[2]].value = testHand[Index[1]].value = testHand[Index[0]].value;
 		
 		//returned hand is guaranteed at least three of a kind
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random Two Pair
 	static Card[] randomTwoPair()
 	{
-		//Hand will contain the generated two pair
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated two pair
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now pick four different indices to be the pairs of cards
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -263,7 +263,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -271,36 +271,36 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//now set the value of the card at the second index to that of the first
-		Hand[Index[1]].value = Hand[Index[0]].value;
+		testHand[Index[1]].value = testHand[Index[0]].value;
 		//check that the third index does not have the same value as the first
-		if(Hand[Index[2]].value == Hand[Index[0]].value)
+		if(testHand[Index[2]].value == testHand[Index[0]].value)
 		{
 			//if the values are the same, increment the value on the third
 			//this ensures that the values are not the same, 
 			//and they will never exceed the maximum value (since a high ace is not generated randomly)
-			Hand[Index[2]].value++;
+			testHand[Index[2]].value++;
 		}
 		//now set the value of the card at the fourth index to that of the third
-		Hand[Index[3]].value = Hand[Index[2]].value;
+		testHand[Index[3]].value = testHand[Index[2]].value;
 		
 		//the returned hand is guaranteed to have two pairs
-		return Hand;
+		return testHand;
 	}
 	
 	//Generate random one pair
 	static Card[] randomOnePair()
 	{
-		//Hand will contain the generated one pair when returned
-		Card[] Hand = new Card[5];
+		//testHand will contain the generated one pair when returned
+		Card[] testHand = new Card[5];
 		
 		//populate hand with random cards
-		for(int c = 0; c < Hand.length; c++)
+		for(int c = 0; c < testHand.length; c++)
 		{
-			Hand[c] = randomCard();
+			testHand[c] = randomCard();
 		}
 		//now pick two different indices to be the pair of cards
 		//start by creating an array of indices and populating it accordingly
-		int Index[] = new int[Hand.length];
+		int Index[] = new int[testHand.length];
 		for(int c = 0; c < Index.length; c++)
 		{
 			Index[c] = c;//the index will contain the number of its index initially
@@ -308,7 +308,7 @@ public class Hand_test
 		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the indices
 		for(int i = 0; i < Index.length - 1; i++)
 		{
-			int j = ThreadLocalRandom.current().nextInt(i, Hand.length);
+			int j = ThreadLocalRandom.current().nextInt(i, testHand.length);
 			int temporary = Index[i];
 			Index[i] = Index[j];
 			Index[j] = temporary;
@@ -316,13 +316,27 @@ public class Hand_test
 		//the Index array should now contain a shuffled list of indices
 		
 		//now set the value of the card at the second index to that of the first
-		Hand[Index[1]].value = Hand[Index[0]].value;
+		testHand[Index[1]].value = testHand[Index[0]].value;
 		
 		//returned hand is guaranteed to have at least one pair
-		return Hand;
+		return testHand;
 	}
 	
 	//END RANDOM HAND GENERATION
+	
+	//This method will generate a random hand
+	static Card[] randomHand()
+	{
+		//testHand will contain the generated one pair when returned
+		Card[] testHand = new Card[5];
+
+		//populate hand with random cards
+		for(int c = 0; c < testHand.length; c++)
+		{
+			testHand[c] = randomCard();
+		}
+		return testHand;
+	}
 	
 	//This method will generate a random card
 	static Card randomCard()
@@ -357,127 +371,248 @@ public class Hand_test
 		//constant to store the number of tests we conduct on each hand
 		final int TEST_NUM = 15;
 		
-		//BEGIN TESTS
+		//BEGIN TESTS FOR FALSE NEGATIVES
 		
 		//Test Five of A Kind
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomFiveOfAKind();
-			if(! Hands.isFiveOfAKind(Hand))
+			Card testHand[] = randomFiveOfAKind();
+			if(! Hand.isFiveOfAKind(testHand))
 			{
-				System.out.println("Five of a Kind Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Five of a Kind Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		//Test Straight Flush
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomStraightFlush();
-			if(! Hands.isStraightFlush(Hand))
+			Card testHand[] = randomStraightFlush();
+			if(! Hand.isStraightFlush(testHand))
 			{
-				System.out.println("Straight Flush Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Straight Flush Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test Four of a Kind
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomFourOfAKind();
-			if(! Hands.isFourOfAKind(Hand))
+			Card testHand[] = randomFourOfAKind();
+			if(! Hand.isFourOfAKind(testHand))
 			{
-				System.out.println("Four of a Kind Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Four of a Kind Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test Full House
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomFullHouse();
-			if(! Hands.isFullHouse(Hand))
+			Card testHand[] = randomFullHouse();
+			if(! Hand.isFullHouse(testHand))
 			{
-				System.out.println("Full House Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Full House Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test Flush
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomFlush();
-			if(! Hands.isFlush(Hand))
+			Card testHand[] = randomFlush();
+			if(! Hand.isFlush(testHand))
 			{
-				System.out.println("Flush Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Flush Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test Straight
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomStraight();
-			if(! Hands.isStraight(Hand))
+			Card testHand[] = randomStraight();
+			if(! Hand.isStraight(testHand))
 			{
-				System.out.println("Straight Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Straight Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test Three of a Kind
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomThreeOfAKind();
-			if(! Hands.isThreeOfAKind(Hand))
+			Card testHand[] = randomThreeOfAKind();
+			if(! Hand.isThreeOfAKind(testHand))
 			{
-				System.out.println("Three of a Kind Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Three of a Kind Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test Two Pair
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomTwoPair();
-			if(! Hands.isTwoPair(Hand))
+			Card testHand[] = randomTwoPair();
+			if(! Hand.isTwoPair(testHand))
 			{
-				System.out.println("Two Pair Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("Two Pair Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
 		// Test One Pair
 		for(int c = 0; c < TEST_NUM; c++)
 		{
-			Card Hand[] = randomOnePair();
-			if(! Hands.isOnePair(Hand))
+			Card testHand[] = randomOnePair();
+			if(! Hand.isOnePair(testHand))
 			{
-				System.out.println("One Pair Failure!");
-				for(int i = 0; i < Hand.length; i++)
+				System.out.println("One Pair Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
 				{
-					Hand[i].print();
+					testHand[i].print();
 				}
 			}
 		}
-		System.out.println("DONE");
-		//END TESTS
+		System.out.println("FALSE NEGATIVES DONE");
+		//END TESTS FOR FALSE NEGATIVES
+		
+		//BEGIN TESTS FOR FALSE POSITIVES
+		//Test Five of A Kind
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if(Hand.FiveOfAKind == Hand.determineRank(testHand))
+			{
+				System.out.println("Five of a Kind Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		//Test Straight Flush
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.StraightFlush == Hand.determineRank(testHand))
+			{
+				System.out.println("Straight Flush Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test Four of a Kind
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.FourOfAKind == Hand.determineRank(testHand))
+			{
+				System.out.println("Four of a Kind Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test Full House
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.FullHouse == Hand.determineRank(testHand))
+			{
+				System.out.println("Full House Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test Flush
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.Flush == Hand.determineRank(testHand))
+			{
+				System.out.println("Flush Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test Straight
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.Straight == Hand.determineRank(testHand))
+			{
+				System.out.println("Straight Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test Three of a Kind
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.ThreeOfAKind == Hand.determineRank(testHand))
+			{
+				System.out.println("Three of a Kind Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test Two Pair
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.TwoPair == Hand.determineRank(testHand))
+			{
+				System.out.println("Two Pair Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		// Test One Pair
+		for(int c = 0; c < TEST_NUM; c++)
+		{
+			Card testHand[] = randomHand();
+			if( Hand.OnePair == Hand.determineRank(testHand))
+			{
+				System.out.println("One Pair Possible False Positive");
+				for(int i = 0; i < testHand.length; i++)
+				{
+					testHand[i].print();
+				}
+			}
+		}
+		System.out.println("FALSE POSITIVES DONE");
+		//END TEST FOR FALSE POSITIVES
 	}
 
 }
