@@ -459,8 +459,8 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
     fos.flush();
     fos.close();
-      String text = "Wrote file: " + out.getName();
-      messageSnackbarHelper.showMessage(this, text);
+    String text = "Wrote file: " + out.getName();
+    messageSnackbarHelper.showMessage(this, text);
     long oldestTimeStamp = out.listFiles()[0].lastModified();
     int oldestFileIndex = 0;
     if (out.listFiles().length > 3) {
@@ -471,7 +471,8 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
           oldestFileIndex = i;
         }
       }
-      File oldestFile = out.listFiles()[oldestFileIndex];
+      String temp = out.listFiles()[oldestFileIndex].getAbsolutePath();
+      File oldestFile = new File(temp);
       oldestFile.delete();
     }
 
