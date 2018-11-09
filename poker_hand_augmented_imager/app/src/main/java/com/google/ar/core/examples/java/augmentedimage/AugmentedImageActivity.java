@@ -307,6 +307,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
 
   private void configureSession() {
     Config config = new Config(session);
+    config.setFocusMode(Config.FocusMode.AUTO);
     if (!setupAugmentedImageDatabase(config)) {
       messageSnackbarHelper.showError(this, "Could not setup augmented image database");
     }
@@ -458,6 +459,8 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
     fos.flush();
     fos.close();
+      String text = "Wrote file: " + out.getName();
+      messageSnackbarHelper.showMessage(this, text);
     long oldestTimeStamp = out.listFiles()[0].lastModified();
     int oldestFileIndex = 0;
     if (out.listFiles().length > 3) {
@@ -468,10 +471,10 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
           oldestFileIndex = i;
         }
       }
-      out.listFiles()[oldestFileIndex].delete();
+      File oldestFile = out.listFiles()[oldestFileIndex];
+      oldestFile.delete();
     }
-    String text = "Wrote file: " + out.getName();
-    messageSnackbarHelper.showMessage(this, text);
+
 
   }
 
