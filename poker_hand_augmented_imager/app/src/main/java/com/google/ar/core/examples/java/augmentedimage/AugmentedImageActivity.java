@@ -29,6 +29,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.ar.core.Anchor;
@@ -60,8 +61,6 @@ import java.nio.IntBuffer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -78,6 +77,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
 
   private int mWidth;
   private int mHeight;
+  private boolean capturePicture;
 
   private boolean installRequested;
 
@@ -294,11 +294,13 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       // Avoid crashing the application due to unhandled exceptions.
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
-    try {
+    if (capturePicture) {
+      try {
         SavePicture();
-    }
-    catch (Exception ex) {
+      }
+      catch (Exception ex) {
         ex.printStackTrace();
+      }
     }
   }
 
@@ -412,6 +414,10 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     return null;
   }
 
+  public void onSavePicture(View view) {
+    capturePicture = true;
+  }
+
   public void SavePicture() throws IOException {
     int pixelData[] = new int[mWidth * mHeight];
 
@@ -448,7 +454,10 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
 
     // Write it to disk.
     FileOutputStream fos = new FileOutputStream(out);
-    long oldestTimeStamp = out.listFiles()[0].lastModified();
+    bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+    fos.flush();
+    fos.close();
+    /*long oldestTimeStamp = out.listFiles()[0].lastModified();
     int oldestFileIndex = 0;
     if (out.listFiles().length > 3) {
       for (int i = 1; i < out.listFiles().length; i++) {
@@ -459,10 +468,10 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
         }
       }
       out.listFiles()[oldestFileIndex].delete();
-    }
-    bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
-    fos.flush();
-    fos.close();
+    }*/
+    String text = "Wrote file: " + out.getName();
+    messageSnackbarHelper.showMessage(this, text);
+
   }
 
 }
