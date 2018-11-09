@@ -62,6 +62,10 @@ I have consolidated the determination methods, so now there is a single method t
 
 I've yet to find a way to fully automate the search for false positives, so I have settled for randomly generating hands and manually checking any matches that come up for each possible hand rank. This can be a tedious process but the only other way I could see to create a reliable automated test would be to have some sort of oracle set to check against. Said set could not encompass a significant portion of the possible arrangements of cards, so would be even less robust than the current system. I should have a final version of this portion of the project tomorrow, whose test results I will record, and then submit a wordcount on the comments.
 
+<h2>DevNote 11/9</h2>
+<p></p>
+I have come up with a satisfactory way to test for false positives. Cards are randomly drawn from a virtual deck to make a hand. This hand is tested to determine its rank/type. We repeat this process, counting the number of instances of each hand rank that occur. If there is a large discrepency between the number of hands of a given value, and the statistically expected number we can surmise that there are false positives. This process can be repeated many times to ensure adequate samples.
+
 </body>
 
 </html>
