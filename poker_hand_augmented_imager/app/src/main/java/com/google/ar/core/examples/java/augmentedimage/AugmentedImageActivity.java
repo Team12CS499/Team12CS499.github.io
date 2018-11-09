@@ -296,6 +296,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     }
     if (capturePicture) {
       try {
+          capturePicture = false;
         SavePicture();
       }
       catch (Exception ex) {
@@ -457,7 +458,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
     fos.flush();
     fos.close();
-    /*long oldestTimeStamp = out.listFiles()[0].lastModified();
+    long oldestTimeStamp = out.listFiles()[0].lastModified();
     int oldestFileIndex = 0;
     if (out.listFiles().length > 3) {
       for (int i = 1; i < out.listFiles().length; i++) {
@@ -468,7 +469,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
         }
       }
       out.listFiles()[oldestFileIndex].delete();
-    }*/
+    }
     String text = "Wrote file: " + out.getName();
     messageSnackbarHelper.showMessage(this, text);
 
