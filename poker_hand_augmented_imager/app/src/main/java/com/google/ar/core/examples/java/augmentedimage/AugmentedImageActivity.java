@@ -67,6 +67,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /** This app extends the HelloAR Java app to include image tracking functionality. */
+//It also adds the ability to take images of the AR environment and store them in
 public class AugmentedImageActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
   private static final String TAG = AugmentedImageActivity.class.getSimpleName();
 
@@ -77,10 +78,6 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
 
   private int mWidth;
   private int mHeight;
-  private boolean capturePicture = false;
-  private Timer cameraTimer;
-  private TimerTask cameraOnTime;
-  private static final int CAMERA_DELAY = 1000;
 
   private boolean installRequested;
 
@@ -103,20 +100,6 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    cameraTimer = new Timer();
-    cameraOnTime = new TimerTask() {
-      @Override
-      public void run() {
-        try {
-          SavePicture();
-        }
-        catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    };
-
-    cameraTimer.scheduleAtFixedRate(cameraOnTime, CAMERA_DELAY, CAMERA_DELAY);
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -311,14 +294,11 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       // Avoid crashing the application due to unhandled exceptions.
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
-    if (capturePicture) {
-      capturePicture = false;
-      try {
+    try {
         SavePicture();
-      }
-      catch (Exception ex) {
+    }
+    catch (Exception ex) {
         ex.printStackTrace();
-      }
     }
   }
 
@@ -430,13 +410,6 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       Log.e(TAG, "IO exception loading augmented image bitmap.", e);
     }
     return null;
-  }
-
-  public void onSavePicture(View view) {
-    // Here just a set a flag so we can copy
-    // the image from the onDrawFrame() method.
-    // This is required for OpenGL so we are on the rendering thread.
-    this.capturePicture = true;
   }
 
   public void SavePicture() throws IOException {
