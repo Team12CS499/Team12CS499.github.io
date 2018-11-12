@@ -50,8 +50,8 @@ On November 11th, Kyle Nelson, (in a limited capacity, Austin Williams), and I m
 <p></p>
 Update on Total Word Count for class:
 <p></p>
-Resume: 318
-Ethics Assignment: 517
+Resume: 500
+Ethics Assignment: 500
 WebSite: 216
 Use Case Assignment: 107
 Architecture Assignment: 637
@@ -60,7 +60,7 @@ Coding Assignment: 601
 DevLog: 738
 Coding Presention: 109
 <p></p>
-Total: 4108
+Total: 4270
 </body>
 
 </html>
