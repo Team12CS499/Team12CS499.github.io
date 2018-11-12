@@ -56,11 +56,11 @@ WebSite: 216
 Use Case Assignment: 107
 Architecture Assignment: 637
 Requirments Assignment: 865
-Coding Assignment: 581
+Coding Assignment: 601
 DevLog: 738
 Coding Presention: 109
 <p></p>
-Total: 4088
+Total: 4108
 </body>
 
 </html>
