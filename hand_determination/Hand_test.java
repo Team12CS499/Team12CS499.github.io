@@ -327,13 +327,38 @@ public class Hand_test
 	//This method will generate a random hand
 	static Card[] randomHand()
 	{
+		//testDeck will contain all possible cards
+		Card[] testDeck = new Card[52];
+		byte testValue = 0;
+		byte testSuit = 0;
+		for(byte c = 0; c < testDeck.length; c++)
+		{
+			testValue++;
+			if(testValue > Card.KING)
+			{
+				testValue = 1;
+				testSuit++;
+			}
+			if(testSuit > 3)
+				testSuit = 0;
+			testDeck[c] = new Card(testValue, testSuit);
+		}
+		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the deck
+		for(int i = 0; i < testDeck.length - 1; i++)
+		{
+			int j = ThreadLocalRandom.current().nextInt(i, testDeck.length);
+			Card temporary = new Card(testDeck[i].value, testDeck[i].suit);
+			testDeck[i] = new Card(testDeck[j].value, testDeck[j].suit);
+			testDeck[j] = new Card(temporary.value, temporary.suit);
+		}
+		
 		//testHand will contain the generated one pair when returned
 		Card[] testHand = new Card[5];
 
-		//populate hand with random cards
+		//populate hand with cards drawn from the deck
 		for(int c = 0; c < testHand.length; c++)
 		{
-			testHand[c] = randomCard();
+			testHand[c] = testDeck[c];
 		}
 		return testHand;
 	}
@@ -494,123 +519,48 @@ public class Hand_test
 		//END TESTS FOR FALSE NEGATIVES
 		
 		//BEGIN TESTS FOR FALSE POSITIVES
-		//Test Five of A Kind
-		for(int c = 0; c < TEST_NUM; c++)
+		
+		//numSuit will record the number of cards of each suit generated,
+		//this can be used as a baseline to determine if the RNG is responsible for any discrepancies
+		int numSuit[] = new int[4];
+		
+		//numRank will store the number of hands of each rank generated
+		int numRank[] = new int[10];
+		
+		//generate TESTNUM hands, classify them, and record the number in each classification
+		final int TESTNUM = 1000;
+		for(int c = 0; c < TESTNUM; c++)
 		{
-			Card testHand[] = randomHand();
-			if(Hand.FiveOfAKind == Hand.determineRank(testHand))
+			Hand testHand = new Hand(randomHand());
+			
+			//add the number of cards of each suit to numSuit
+			for(int i = 0; i < testHand.Cards.length; i++)
 			{
-				System.out.println("Five of a Kind Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
+				numSuit[testHand.Cards[i].suit]++;
 			}
+			
+			//add one to the entry in field corresponding to the rank of the generated hand
+			numRank[testHand.Rank]++;
 		}
-		//Test Straight Flush
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.StraightFlush == Hand.determineRank(testHand))
-			{
-				System.out.println("Straight Flush Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test Four of a Kind
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.FourOfAKind == Hand.determineRank(testHand))
-			{
-				System.out.println("Four of a Kind Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test Full House
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.FullHouse == Hand.determineRank(testHand))
-			{
-				System.out.println("Full House Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test Flush
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.Flush == Hand.determineRank(testHand))
-			{
-				System.out.println("Flush Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test Straight
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.Straight == Hand.determineRank(testHand))
-			{
-				System.out.println("Straight Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test Three of a Kind
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.ThreeOfAKind == Hand.determineRank(testHand))
-			{
-				System.out.println("Three of a Kind Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test Two Pair
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.TwoPair == Hand.determineRank(testHand))
-			{
-				System.out.println("Two Pair Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
-		// Test One Pair
-		for(int c = 0; c < TEST_NUM; c++)
-		{
-			Card testHand[] = randomHand();
-			if( Hand.OnePair == Hand.determineRank(testHand))
-			{
-				System.out.println("One Pair Possible False Positive");
-				for(int i = 0; i < testHand.length; i++)
-				{
-					testHand[i].print();
-				}
-			}
-		}
+		
+		//print the actual and expected number of the suits as a control group
+		System.out.printf("%-15s : %-10s : %-10s\n", "Suit", "Expected", "Actual");
+		for(int c = 0; c < 4; c++)
+			System.out.printf("%-15s : %-10s : %-10s\n", c, ((double)TESTNUM * 5) / 4, numSuit[c]);
+		
+		//print the actual and expected number for each hand rank
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Rank", "Expected", "Actual");
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Five of a Kind", 0, numRank[Hand.FiveOfAKind]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Straight Flush", ((double)TESTNUM) * 0.000015, numRank[Hand.StraightFlush]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Four of a Kind", ((double)TESTNUM) * 0.00024, numRank[Hand.FourOfAKind]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Full House", ((double)TESTNUM) * 0.001441, numRank[Hand.FullHouse]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Flush", ((double)TESTNUM) * 0.001965, numRank[Hand.Flush]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Straight", ((double)TESTNUM) * 0.003925, numRank[Hand.Straight]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Three of a Kind", ((double)TESTNUM) * 0.021128, numRank[Hand.ThreeOfAKind]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Two Pair", ((double)TESTNUM) * 0.047529, numRank[Hand.TwoPair]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "One Pair", ((double)TESTNUM) * 0.422569, numRank[Hand.OnePair]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "High Card", ((double)TESTNUM) * 0.501177, numRank[Hand.HighCard]);
+		
 		System.out.println("FALSE POSITIVES DONE");
 		//END TEST FOR FALSE POSITIVES
 	}
