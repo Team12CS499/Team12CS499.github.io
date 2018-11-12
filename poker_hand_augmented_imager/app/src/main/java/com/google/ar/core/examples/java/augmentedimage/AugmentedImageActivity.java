@@ -78,6 +78,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
   private int mWidth;
   private int mHeight;
   private boolean capturePicture;
+  private int capturePictureCount = 0;
 
   private boolean installRequested;
 
@@ -294,14 +295,17 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       // Avoid crashing the application due to unhandled exceptions.
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
-    if (capturePicture) {
+    if (capturePictureCount > 10) {
       try {
-          capturePicture = false;
-        SavePicture();
+          capturePictureCount = 0;
+          SavePicture();
       }
       catch (Exception ex) {
         ex.printStackTrace();
       }
+    }
+    else {
+      capturePictureCount++;
     }
   }
 
