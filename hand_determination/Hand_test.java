@@ -321,9 +321,7 @@ public class Hand_test
 		//returned hand is guaranteed to have at least one pair
 		return testHand;
 	}
-	
-	//END RANDOM HAND GENERATION
-	
+		
 	//This method will generate a random hand
 	static Card[] randomHand()
 	{
@@ -363,6 +361,8 @@ public class Hand_test
 		return testHand;
 	}
 	
+	//END RANDOM HAND GENERATION
+	
 	//This method will generate a random card
 	static Card randomCard()
 	{
@@ -394,7 +394,7 @@ public class Hand_test
 	public static void main(String[] args) 
 	{
 		//constant to store the number of tests we conduct on each hand
-		final int TEST_NUM = 15;
+		final int TEST_NUM = 1000;
 		
 		//BEGIN TESTS FOR FALSE NEGATIVES
 		
@@ -515,7 +515,7 @@ public class Hand_test
 				}
 			}
 		}
-		System.out.println("FALSE NEGATIVES DONE");
+		System.out.println("FALSE NEGATIVES DONE\n");
 		//END TESTS FOR FALSE NEGATIVES
 		
 		//BEGIN TESTS FOR FALSE POSITIVES
@@ -527,8 +527,61 @@ public class Hand_test
 		//numRank will store the number of hands of each rank generated
 		int numRank[] = new int[10];
 		
+		//create a simulated deck with one instance of each possible card
+		Card[] testDeck = new Card[52];
+		byte testValue = 0;
+		byte testSuit = 0;
+		for(byte c = 0; c < testDeck.length; c++)
+		{
+			testValue++;
+			if(testValue > Card.KING)
+			{
+				testValue = 1;
+				testSuit++;
+			}
+			if(testSuit > 3)
+				testSuit = 0;
+			testDeck[c] = new Card(testValue, testSuit);
+		}
+		
+		//store the total number of possible hands generated
+		int TESTNUM = 0;
+		
+		for(int first = 0; first < testDeck.length; first++)
+		{
+			for(int second = first + 1; second < testDeck.length; second++)
+			{
+				for(int third = second + 1; third < testDeck.length; third++)
+				{
+					for(int fourth = third + 1; fourth < testDeck.length; fourth++)
+					{
+						for(int fifth = fourth + 1; fifth < testDeck.length; fifth++)
+						{
+							//count the number of hands generated, to ensure we got them all
+							TESTNUM++;
+							//make a hand of the cards at these iterating indices
+							Card[] handArray = {testDeck[first], testDeck[second],
+									testDeck[third], testDeck[fourth], testDeck[fifth]};
+							Hand testHand = new Hand(handArray);
+							
+							//add the number of cards of each suit to numSuit
+							for(int i = 0; i < testHand.Cards.length; i++)
+							{
+								numSuit[testHand.Cards[i].suit]++;
+							}
+							
+							//add one to the entry in field corresponding to the rank of the generated hand
+							numRank[testHand.Rank]++;
+						}
+					}
+				}
+			}
+		}
+
+		/*OBSOLETE RANDOM TEST METHOD
+		 * 
 		//generate TESTNUM hands, classify them, and record the number in each classification
-		final int TESTNUM = 1000;
+		final int TESTNUM = 10000;
 		for(int c = 0; c < TESTNUM; c++)
 		{
 			Hand testHand = new Hand(randomHand());
@@ -542,24 +595,30 @@ public class Hand_test
 			//add one to the entry in field corresponding to the rank of the generated hand
 			numRank[testHand.Rank]++;
 		}
+		*
+		*/
+		
+		System.out.println(TESTNUM + " Hands Generated\n");
 		
 		//print the actual and expected number of the suits as a control group
 		System.out.printf("%-15s : %-10s : %-10s\n", "Suit", "Expected", "Actual");
 		for(int c = 0; c < 4; c++)
 			System.out.printf("%-15s : %-10s : %-10s\n", c, ((double)TESTNUM * 5) / 4, numSuit[c]);
 		
+		System.out.println("");
+		
 		//print the actual and expected number for each hand rank
 		System.out.printf("%-15s : %-10.8s : %-10s\n", "Rank", "Expected", "Actual");
 		System.out.printf("%-15s : %-10.8s : %-10s\n", "Five of a Kind", 0, numRank[Hand.FiveOfAKind]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Straight Flush", ((double)TESTNUM) * 0.000015, numRank[Hand.StraightFlush]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Four of a Kind", ((double)TESTNUM) * 0.00024, numRank[Hand.FourOfAKind]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Full House", ((double)TESTNUM) * 0.001441, numRank[Hand.FullHouse]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Flush", ((double)TESTNUM) * 0.001965, numRank[Hand.Flush]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Straight", ((double)TESTNUM) * 0.003925, numRank[Hand.Straight]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Three of a Kind", ((double)TESTNUM) * 0.021128, numRank[Hand.ThreeOfAKind]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "Two Pair", ((double)TESTNUM) * 0.047529, numRank[Hand.TwoPair]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "One Pair", ((double)TESTNUM) * 0.422569, numRank[Hand.OnePair]);
-		System.out.printf("%-15s : %-10.8s : %-10s\n", "High Card", ((double)TESTNUM) * 0.501177, numRank[Hand.HighCard]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Straight Flush", 40, numRank[Hand.StraightFlush]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Four of a Kind", 624, numRank[Hand.FourOfAKind]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Full House", 3744, numRank[Hand.FullHouse]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Flush", 5108, numRank[Hand.Flush]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Straight", 10200, numRank[Hand.Straight]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Three of a Kind", 54912, numRank[Hand.ThreeOfAKind]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "Two Pair", 123552, numRank[Hand.TwoPair]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "One Pair", 1098240, numRank[Hand.OnePair]);
+		System.out.printf("%-15s : %-10.8s : %-10s\n", "High Card", 1302540, numRank[Hand.HighCard]);
 		
 		System.out.println("FALSE POSITIVES DONE");
 		//END TEST FOR FALSE POSITIVES
