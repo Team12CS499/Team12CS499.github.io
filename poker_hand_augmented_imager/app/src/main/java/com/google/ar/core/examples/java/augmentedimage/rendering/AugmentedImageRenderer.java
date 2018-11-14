@@ -36,6 +36,11 @@ public class AugmentedImageRenderer {
   private final ObjectRenderer imageFrameUpperRight = new ObjectRenderer();
   private final ObjectRenderer imageFrameLowerLeft = new ObjectRenderer();
   private final ObjectRenderer imageFrameLowerRight = new ObjectRenderer();
+  private final ObjectRenderer heart = new ObjectRenderer();
+  private final ObjectRenderer spade = new ObjectRenderer();
+  private final ObjectRenderer club = new ObjectRenderer();
+  private final ObjectRenderer diamond = new ObjectRenderer();
+
 
   public AugmentedImageRenderer() {}
 
@@ -60,6 +65,22 @@ public class AugmentedImageRenderer {
         context, "models/frame_lower_right.obj", "models/frame_base.png");
     imageFrameLowerRight.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
     imageFrameLowerRight.setBlendMode(BlendMode.SourceAlpha);
+
+    heart.createOnGlThread(context, "models/heart.obj", "models/red.png");
+    heart.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
+    heart.setBlendMode(BlendMode.SourceAlpha);
+
+    diamond.createOnGlThread(context, "models/diamond.obj", "models/red.png");
+    diamond.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
+    diamond.setBlendMode(BlendMode.SourceAlpha);
+
+    club.createOnGlThread(context, "models/diamond.obj", "models/black.png");
+    club.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
+    club.setBlendMode(BlendMode.SourceAlpha);
+
+    spade.createOnGlThread(context, "models/diamond.obj", "models/black.png");
+    spade.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
+    spade.setBlendMode(BlendMode.SourceAlpha);
   }
 
   public void draw(
@@ -67,7 +88,8 @@ public class AugmentedImageRenderer {
       float[] projectionMatrix,
       AugmentedImage augmentedImage,
       Anchor centerAnchor,
-      float[] colorCorrectionRgba) {
+      float[] colorCorrectionRgba,
+      int cardType) {
     float[] tintColor =
         convertHexToColor(TINT_COLORS_HEX[augmentedImage.getIndex() % TINT_COLORS_HEX.length]);
 
@@ -87,7 +109,8 @@ public class AugmentedImageRenderer {
       Pose.makeTranslation(
           -0.5f * augmentedImage.getExtentX(),
           0.0f,
-          0.5f * augmentedImage.getExtentZ()) // lower left
+          0.5f * augmentedImage.getExtentZ()), // lower left
+      Pose.makeTranslation(0.0f, 0.0f, -1.00f * augmentedImage.getExtentZ())
     };
 
     Pose anchorPose = centerAnchor.getPose();
@@ -114,6 +137,31 @@ public class AugmentedImageRenderer {
     worldBoundaryPoses[3].toMatrix(modelMatrix, 0);
     imageFrameLowerLeft.updateModelMatrix(modelMatrix, scaleFactor);
     imageFrameLowerLeft.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
+
+    switch(cardType) {
+        case 1: {
+            worldBoundaryPoses[4].toMatrix(modelMatrix, 0);
+            heart.updateModelMatrix(modelMatrix, scaleFactor);
+            heart.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
+        }
+        case 2: {
+            worldBoundaryPoses[4].toMatrix(modelMatrix, 0);
+            diamond.updateModelMatrix(modelMatrix, scaleFactor);
+            diamond.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
+        }
+        case 3: {
+            worldBoundaryPoses[4].toMatrix(modelMatrix, 0);
+            club.updateModelMatrix(modelMatrix, scaleFactor);
+            club.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
+        }
+        case 4: {
+            worldBoundaryPoses[4].toMatrix(modelMatrix, 0);
+            spade.updateModelMatrix(modelMatrix, scaleFactor);
+            spade.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
+        }
+
+    }
+
   }
 
   private static float[] convertHexToColor(int colorHex) {

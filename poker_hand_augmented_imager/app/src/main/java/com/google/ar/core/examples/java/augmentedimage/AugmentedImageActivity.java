@@ -58,12 +58,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import handDetermination.Card;
+import handDetermination.Hand;
+
+import static java.lang.Integer.parseInt;
 
 /** This app extends the HelloAR Java app to include image tracking functionality. */
 //It also adds the ability to take images of the AR environment and store them in
@@ -79,6 +85,9 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
   private int mHeight;
   private boolean capturePicture;
   private int capturePictureCount = 0;
+
+  private handDetermination.Hand pokerHand;
+  private ArrayList<handDetermination.Card> pokerCards;
 
   private boolean installRequested;
 
@@ -295,7 +304,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       // Avoid crashing the application due to unhandled exceptions.
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
-    if (capturePictureCount > 100) {
+    /*if (capturePictureCount > 100) {
       try {
           capturePictureCount = 0;
           SavePicture();
@@ -306,7 +315,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     }
     else {
       capturePictureCount++;
-    }
+    }*/
   }
 
   private void configureSession() {
@@ -366,13 +375,41 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       Anchor centerAnchor = augmentedImageMap.get(augmentedImage.getIndex()).second;
       switch (augmentedImage.getTrackingState()) {
         case TRACKING:
-          augmentedImageRenderer.draw(
-              viewmtx, projmtx, augmentedImage, centerAnchor, colorCorrectionRgba);
+            int cardType = 0;
+            int tempIndex = augmentedImage.getIndex();
+            if (tempIndex >= 0 && tempIndex <= 8) {
+                cardType = 3;
+                handDetermination.Card newCard = parseCard(augmentedImage);
+                pokerCards.add(newCard);
+            }
+            else if (tempIndex <= 14) {
+                cardType = 2;
+                handDetermination.Card newCard = parseCard(augmentedImage);
+                pokerCards.add(newCard);
+            }
+            else if (tempIndex <= 17) {
+                cardType = 1;
+                handDetermination.Card newCard = parseCard(augmentedImage);
+                pokerCards.add(newCard);
+            }
+            else {
+                cardType = 4;
+                handDetermination.Card newCard = parseCard(augmentedImage);
+                pokerCards.add(newCard);
+            }
+          augmentedImageRenderer.draw(viewmtx, projmtx, augmentedImage, centerAnchor, colorCorrectionRgba, cardType);
+            if (pokerCards.size() == 5) {
+                Card[] temp = arrListToArr(pokerCards);
+                pokerHand = new Hand(temp);
+                messageSnackbarHelper.showMessage(this, pokerHand.rankToString());
+            }
           break;
         default:
           break;
       }
     }
+
+
   }
 
   private boolean setupAugmentedImageDatabase(Config config) {
@@ -481,6 +518,70 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     }
 
 
+  }
+
+  public handDetermination.Card parseCard(AugmentedImage card) {
+      String imageName = card.getName();
+      String[] splitString = imageName.split("[_.]+");
+      byte[] values = new byte[2];
+      boolean faceCard = false;
+      if (splitString[1].equalsIgnoreCase("KING")) {
+          values[1] = 13;
+          faceCard = true;
+      }
+      else if (splitString[1].equalsIgnoreCase("QUEEN")) {
+          values[1] = 12;
+          faceCard = true;
+      }
+      else if (splitString[1].equalsIgnoreCase("JACK")) {
+          values[1] = 11;
+          faceCard = true;
+      }
+      else if (splitString[1].equalsIgnoreCase("ACE")) {
+          values[1] = 14;
+          faceCard = true;
+      }
+
+      if (splitString[0].equalsIgnoreCase("HEART")) {
+          values[0] = 0;
+          int intType = Integer.parseInt(splitString[1]);
+          if (!faceCard) {
+              values[1] = (byte) intType;
+          }
+      }
+      else if (splitString[0].equalsIgnoreCase("DIAMOND")) {
+          values[0] = 1;
+          int intType = Integer.parseInt(splitString[1]);
+          if (!faceCard) {
+              values[1] = (byte) intType;
+          }
+      }
+      else if (splitString[0].equalsIgnoreCase("CLUB")) {
+          values[0] = 2;
+          int intType = Integer.parseInt(splitString[1]);
+          if (!faceCard) {
+              values[1] = (byte) intType;
+          }
+      }
+      else if (splitString[0].equalsIgnoreCase("SPADE")) {
+          values[0] = 3;
+          int intType = Integer.parseInt(splitString[1]);
+          if (!faceCard) {
+              values[1] = (byte) intType;
+          }
+      }
+      handDetermination.Card result = new handDetermination.Card(values[0], values[1]);
+      return result;
+  }
+
+  public handDetermination.Card[] arrListToArr(ArrayList<handDetermination.Card> cards) {
+      handDetermination.Card[] cardArr = new Card[cards.size()];
+      int index = 0;
+      for (Card c : cards) {
+          cardArr[index] = c;
+          index++;
+      }
+      return cardArr;
   }
 
 }

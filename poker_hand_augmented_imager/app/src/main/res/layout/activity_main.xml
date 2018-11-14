@@ -33,14 +33,14 @@
       android:scaleType="fitCenter"
       />
 
-  <Button
+  <!--Button
       android:id="@+id/fboRecord_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignStart="@+id/surfaceview"
       android:layout_alignTop="@+id/surfaceview"
       android:onClick="onSavePicture"
-      android:text="Snap"
-      tools:ignore="OnClick"/>
+      android:text="Take Picture"
+      tools:ignore="OnClick"/-->
 
 </FrameLayout>
