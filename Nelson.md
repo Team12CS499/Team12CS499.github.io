@@ -66,6 +66,13 @@ I've yet to find a way to fully automate the search for false positives, so I ha
 <p></p>
 I have come up with a satisfactory way to test for false positives. Cards are randomly drawn from a virtual deck to make a hand. This hand is tested to determine its rank/type. We repeat this process, counting the number of instances of each hand rank that occur. If there is a large discrepency between the number of hands of a given value, and the statistically expected number we can surmise that there are false positives. This process can be repeated many times to ensure adequate samples.
 
+<h2>DevNote 11/11</h2>
+<p></p>
+After increasing the number of randomly generated tests for false positives as indicated above, I realized that I could actually run an exhaustive test of all possible hands. After running the exhaustive tests I was alarmed to realize that there were a number of false negatives on the Straight recongnition. After some reasearch, I realized that the number of possible straights as calculated by so many mathematicians was based off the idea that an Ace could be alternatively low or high depending on player preference. This meant that when I tested with Aces fixed to low, the straights which required Aces to be high would return as not being straights. This is an acceptable feature for this low level. We will simply have to remember to have the higher levels of the software test both the case where Ace is low and the case where Ace is high.
+<p></p>
+
+I estimate there to be a total of 1045 words in the comments to the code I have written for the hand Determination Algorithm, at an average of 5 word per comment line and 209 lines of comments. The accompanying README.txt is an additional 202 words. My contributions to the Coding assignment come up to 448 words. Including the 500 words each from the Ethics assignment and the Resume asssignment, this brings us to a total of 4061 words, not including this document. This document, up until this point is a total of 1818 words. This brings the GRAND TOTAL to 5879.
+
 </body>
 
 </html>

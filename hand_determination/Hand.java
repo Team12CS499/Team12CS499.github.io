@@ -194,8 +194,8 @@ public class Hand
 			}
 		}
 		
-		//now we see if we have an instance of every value from lowest to lowest + 4
-		for(int c = 0; c < 5; c++)
+		//now we see if we have an instance of every value from lowest to lowest + hand.length - 1
+		for(int c = 0; c < Hand.length; c++)
 		{
 			boolean instanceFound = false;
 			for(int i = 0; i < Hand.length; i++)

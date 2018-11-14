@@ -40,6 +40,27 @@ Kyle Nelson, Austin Williams and I met once in person on October 17th. At that m
 <p></p>
 For my part, I have being going through Google's Firebase GitHub repository and other sources of open source machine learning code. I have collected several pages of Java code I believe will help us succeed. 
 
+<h2>DevNote 11/11</h2>
+<p></p>
+Kyle Nelson, Austin Williams, and I met on November 9th to work on the coding assignment. Since the testing device and the Android application emulator did not work for Austin, I presumed the role of tester. I would take the application as it was, build it on my setup, upload it as an .apk application to my phone, and test all the expected functionality of the app. When I would run into an error or issue, I would document this error and send it back to Austin for further refinement.
+<p></p>
+Additionally, I began work and typed up a large portion of the actual coding assignment document for submission. I partially filled out the implementation, testing, and metrics portions, in particular writing the User's manual and the Administrator’s Manual. I had also made a basic outline for the presentation PowerPoint.
+<p></p>
+On November 11th, Kyle Nelson, (in a limited capacity, Austin Williams), and I meet for a digital meeting to finish up the coding assignment and the Coding Presentation PowerPoint. 
+<p></p>
+Update on Total Word Count for class:
+<p></p>
+Resume: 500
+Ethics Assignment: 500
+WebSite: 216
+Use Case Assignment: 107
+Architecture Assignment: 637
+Requirments Assignment: 865
+Coding Assignment: 666
+DevLog: 738
+Coding Presention: 109
+<p></p>
+Total: 4335
 </body>
 
 </html>
