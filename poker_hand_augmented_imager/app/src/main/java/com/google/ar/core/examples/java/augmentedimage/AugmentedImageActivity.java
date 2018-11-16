@@ -457,7 +457,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     return null;
   }
 
-  public void onSavePicture(View view) {
+  /*public void onSavePicture(View view) {
     capturePicture = true;
   }
 
@@ -518,7 +518,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     }
 
 
-  }
+  }*/
 
   public handDetermination.Card parseCard(AugmentedImage card) {
       String imageName = card.getName();

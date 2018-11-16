@@ -66,19 +66,19 @@ public class AugmentedImageRenderer {
     imageFrameLowerRight.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
     imageFrameLowerRight.setBlendMode(BlendMode.SourceAlpha);
 
-    heart.createOnGlThread(context, "models/heart.obj", "models/red.png");
+    heart.createOnGlThread(context, "models/Heart.obj", "models/red.png");
     heart.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
     heart.setBlendMode(BlendMode.SourceAlpha);
 
-    diamond.createOnGlThread(context, "models/diamond.obj", "models/red.png");
+    diamond.createOnGlThread(context, "models/Diamond.obj", "models/red.png");
     diamond.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
     diamond.setBlendMode(BlendMode.SourceAlpha);
 
-    club.createOnGlThread(context, "models/diamond.obj", "models/black.png");
+    club.createOnGlThread(context, "models/Club.obj", "models/black.png");
     club.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
     club.setBlendMode(BlendMode.SourceAlpha);
 
-    spade.createOnGlThread(context, "models/diamond.obj", "models/black.png");
+    spade.createOnGlThread(context, "models/Spade.obj", "models/black.png");
     spade.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
     spade.setBlendMode(BlendMode.SourceAlpha);
   }
