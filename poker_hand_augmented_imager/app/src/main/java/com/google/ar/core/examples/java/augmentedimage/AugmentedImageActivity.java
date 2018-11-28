@@ -18,6 +18,7 @@ package com.google.ar.core.examples.java.augmentedimage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -304,8 +305,8 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       // Avoid crashing the application due to unhandled exceptions.
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
-    /*if (capturePictureCount > 100) {
-      try {
+    if (capturePictureCount > 100) { //This code checks for every 100th scene update
+      try {                             //In order to take a picture of the AR Environment.
           capturePictureCount = 0;
           SavePicture();
       }
@@ -315,7 +316,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     }
     else {
       capturePictureCount++;
-    }*/
+    }
   }
 
   private void configureSession() {
@@ -376,13 +377,13 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       switch (augmentedImage.getTrackingState()) {
         case TRACKING:
             int cardType = 0;
-            int tempIndex = augmentedImage.getIndex();
-            if (tempIndex >= 0 && tempIndex <= 8) {
-                cardType = 3;
-                handDetermination.Card newCard = parseCard(augmentedImage);
-                pokerCards.add(newCard);
-            }
-            else if (tempIndex <= 14) {
+            int tempIndex = augmentedImage.getIndex(); //This code detectes which Images are being augmented
+            if (tempIndex >= 0 && tempIndex <= 8) {     //And when 5 cards have been detected and augmented
+                cardType = 3;                           //It calls the hand recognition
+                handDetermination.Card newCard = parseCard(augmentedImage); //method to determine what hand it is
+                pokerCards.add(newCard);                                    //Once the hand has been determined
+            }                                                               //The app will display a SnackBar message
+            else if (tempIndex <= 14) {                                     //Displaying the type of hand!
                 cardType = 2;
                 handDetermination.Card newCard = parseCard(augmentedImage);
                 pokerCards.add(newCard);
@@ -462,6 +463,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
   }
 
   public void SavePicture() throws IOException {
+      //Initialize the array for the image pixelData
     int pixelData[] = new int[mWidth * mHeight];
 
     // Read the pixels from the current GL frame.
@@ -470,17 +472,17 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
     GLES20.glReadPixels(0, 0, mWidth, mHeight,
             GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, buf);
 
-    // Create a file in the Pictures/HelloAR album.
+    // Create a file in the Pictures/PokerHands album.
     final File out = new File(Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES) + "/PokerHands", "Img" +
             Long.toHexString(System.currentTimeMillis()) + ".png");
 
-    // Make sure the directory exists
+    // Make sure the file exists, if not create it!
     if (!out.getParentFile().exists()) {
       out.getParentFile().mkdirs();
     }
 
-    // Convert the pixel data from RGBA to what Android wants, ARGB.
+    // Convert the pixel data from RGBA to ARGB. (This is for Android compatibility)
     int bitmapData[] = new int[pixelData.length];
     for (int i = 0; i < mHeight; i++) {
       for (int j = 0; j < mWidth; j++) {
@@ -491,17 +493,22 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
         bitmapData[(mHeight - i - 1) * mWidth + j] = ga | r | b;
       }
     }
-    // Create a bitmap.
+
+    // Create a bitmap to hold the pixel data
     Bitmap bmp = Bitmap.createBitmap(bitmapData,
             mWidth, mHeight, Bitmap.Config.ARGB_8888);
 
-    // Write it to disk.
+    // Write the bitmap to the PokerHands file within Pictures
     FileOutputStream fos = new FileOutputStream(out);
     bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
     fos.flush();
     fos.close();
+
+    //Display message saying the file has been written
     String text = "Wrote file: " + out.getName();
     messageSnackbarHelper.showMessage(this, text);
+
+    //Loop through the Pictures/PokerHands file and delete anything older than the 3 most recent pictures.
     long oldestTimeStamp = out.listFiles()[0].lastModified();
     int oldestFileIndex = 0;
     if (out.listFiles().length > 3) {
@@ -517,31 +524,44 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
       oldestFile.delete();
     }
 
+    //refresh the Gallery so the images are no longer displayed when the folder is inspected.
+    MediaScannerConnection.scanFile(this, new String[] { out.getPath() }, null,
+            new MediaScannerConnection.OnScanCompletedListener() {
+                public void onScanCompleted(String path, Uri uri) {
+                    Log.i("ExternalStorage", "Scanned " + path + ":");
+                    Log.i("ExternalStorage", "-> uri=" + uri);
+                }
+            });
 
   }
 
   public handDetermination.Card parseCard(AugmentedImage card) {
+      //Determine from the passed Augmented Image what playing card is being detected
       String imageName = card.getName();
       String[] splitString = imageName.split("[_.]+");
       byte[] values = new byte[2];
       boolean faceCard = false;
+      //check if the Augmented Image is a King
       if (splitString[1].equalsIgnoreCase("KING")) {
           values[1] = 13;
           faceCard = true;
       }
+      //check if the Augmented Image is a Queen
       else if (splitString[1].equalsIgnoreCase("QUEEN")) {
           values[1] = 12;
           faceCard = true;
       }
+      //check if the Augmented Image is a Jack
       else if (splitString[1].equalsIgnoreCase("JACK")) {
           values[1] = 11;
           faceCard = true;
       }
+      //check if the Augmented Image is an Ace
       else if (splitString[1].equalsIgnoreCase("ACE")) {
           values[1] = 14;
           faceCard = true;
       }
-
+      //check if the Augmented Image is a Heart
       if (splitString[0].equalsIgnoreCase("HEART")) {
           values[0] = 0;
           int intType = Integer.parseInt(splitString[1]);
@@ -549,6 +569,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
               values[1] = (byte) intType;
           }
       }
+      //check if the Augmented Image is a Diamond
       else if (splitString[0].equalsIgnoreCase("DIAMOND")) {
           values[0] = 1;
           int intType = Integer.parseInt(splitString[1]);
@@ -556,6 +577,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
               values[1] = (byte) intType;
           }
       }
+      //check if the Augmented Image is a Club
       else if (splitString[0].equalsIgnoreCase("CLUB")) {
           values[0] = 2;
           int intType = Integer.parseInt(splitString[1]);
@@ -563,6 +585,7 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
               values[1] = (byte) intType;
           }
       }
+      //check if the Augmented Image is a Spade
       else if (splitString[0].equalsIgnoreCase("SPADE")) {
           values[0] = 3;
           int intType = Integer.parseInt(splitString[1]);
@@ -570,11 +593,14 @@ public class AugmentedImageActivity extends AppCompatActivity implements GLSurfa
               values[1] = (byte) intType;
           }
       }
+      //Return a Card object with the value and suit parsed from the Augmented Image filename
       handDetermination.Card result = new handDetermination.Card(values[0], values[1]);
       return result;
   }
 
   public handDetermination.Card[] arrListToArr(ArrayList<handDetermination.Card> cards) {
+      //convert an ArrayList to an array
+      //This was to solve dynamic sizing issues
       handDetermination.Card[] cardArr = new Card[cards.size()];
       int index = 0;
       for (Card c : cards) {
