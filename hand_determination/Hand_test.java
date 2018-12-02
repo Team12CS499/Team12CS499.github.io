@@ -390,8 +390,8 @@ public class Hand_test
 		return randomSuit;
 	}
 	
-	//The main of the testing program
-	public static void main(String[] args) 
+	//The poker test method
+	public static void PokerTest() 
 	{
 		//constant to store the number of tests we conduct on each hand
 		final int TEST_NUM = 1000;
@@ -544,6 +544,15 @@ public class Hand_test
 			testDeck[c] = new Card(testValue, testSuit);
 		}
 		
+		//now perform the Durstenfeld version of the Fisher-Yates shuffle on the deck
+		for(int i = 0; i < testDeck.length - 1; i++)
+		{
+			int j = ThreadLocalRandom.current().nextInt(i, testDeck.length);
+			Card temporary = new Card(testDeck[i].value, testDeck[i].suit);
+			testDeck[i] = new Card(testDeck[j].value, testDeck[j].suit);
+			testDeck[j] = new Card(temporary.value, temporary.suit);
+		}
+		
 		//store the total number of possible hands generated
 		int TESTNUM = 0;
 		
@@ -622,6 +631,35 @@ public class Hand_test
 		
 		System.out.println("FALSE POSITIVES DONE");
 		//END TEST FOR FALSE POSITIVES
+	}
+	
+	public static void EuchreTest()
+	{
+		//we will generate a random hand as our trick, print it,
+		//and print what the Euchre trick method thinks is the winning card
+		for (int c = 0; c < 15; c++)
+		{
+			System.out.println("Trick number " + c + ":");
+			
+			Card[] Trick = randomHand();
+			for(int i = 0; i < Trick.length; i++)
+			{
+				Trick[i].print();
+			}
+			byte trumpSuit = randomSuit();
+			int winningIndex = Euchre.trickWinner(Trick, trumpSuit);
+			System.out.println("Winner with Trump " + trumpSuit + ":");
+			Trick[winningIndex].print();
+			System.out.println("");
+		}
+	}
+	
+	public static void main(String[] args) 
+	{
+		//comment or uncomment these test method calls to test the desired code
+		
+		//PokerTest();
+		EuchreTest();
 	}
 
 }
