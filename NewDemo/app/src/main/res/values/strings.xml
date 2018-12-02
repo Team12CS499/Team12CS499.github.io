@@ -15,16 +15,15 @@
    limitations under the License.
 -->
 <resources>
-  <string name="app_name">AugImg Java</string>
-
+  <string name="app_name">HelloAR Java</string>
 
   <string name="suitPrompt">Suit</string>
 
   <string-array name="suits">
-      <item>Heart</item>
-      <item>Diamond</item>
-      <item>Club</item>
-      <item>Spade</item>
+    <item>Heart</item>
+    <item>Diamond</item>
+    <item>Club</item>
+    <item>Spade</item>
   </string-array>
 
 
