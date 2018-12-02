@@ -85,8 +85,8 @@ import static hand_determination.Card.QUEEN;
 import static hand_determination.Card.SPADES;
 
 
-public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
-  private static final String TAG = HelloArActivity.class.getSimpleName();
+public class EuchreAugmenter extends AppCompatActivity implements GLSurfaceView.Renderer {
+  private static final String TAG = EuchreAugmenter.class.getSimpleName();
 
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
   private GLSurfaceView surfaceView;
@@ -120,6 +120,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
   private final ObjectRenderer king = new ObjectRenderer();
 
 
+
   private final PlaneRenderer planeRenderer = new PlaneRenderer();
   private final PointCloudRenderer pointCloudRenderer = new PointCloudRenderer();
 
@@ -142,6 +143,8 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
   private byte currentCardValue;
   private byte trumpSuit;
   private ArrayList<Card> trackingCards;
+  private String message;
+  private boolean showMessage;
 
   //Drop down menus to select the card value, card suit, and trump suit before tapping on a card in the environment ***
   private Spinner valueSpinner;
@@ -193,6 +196,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
     currentSuit = -1;
     currentCardValue = -1;
     trumpSuit = SPADES;
+    showMessage = false;
 
     trackingCards = new ArrayList<Card>();
 
@@ -314,17 +318,19 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
     submitButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        if (trackingCards.size() == 0) {
-          messageSnackbarHelper.showMessageWithDismiss((Activity) view.getParent().getParent(), "No cards have been identified!");
-          return;
-        }
-        Card[] trick = new Card[trackingCards.size()];
-        for (int i = 0; i < trick.length; i++) {
-          trick[i] = trackingCards.get(i);
-        }
-        Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
-        String message = winningCard.toString() + " WINS!";
-        messageSnackbarHelper.showMessageWithDismiss((Activity) view.getParent().getParent(), message);
+          if (trackingCards.size() == 0) {
+              showMessage = true;
+              message = "Please indicate which cards you'd like to process!";
+              return;
+          } else {
+              showMessage = true;
+              Card[] trick = new Card[trackingCards.size()];
+              for (int i = 0; i < trick.length; i++) {
+                  trick[i] = trackingCards.get(i);
+              }
+              Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
+              message = winningCard.toString() + " WINS!";
+          }
       }
     });
 
@@ -618,20 +624,17 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+10, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+1, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         //Determine the card suit so the correct object can be rendered in the environment ***
         Card temp = cardTypes.get(coloredAnchor);
-        boolean isRed = false;
         switch(temp.getSuit()) {
           case HEARTS: { //DIAMONDS suit from hand_determination.Card ***
-            isRed = true;
             heart.updateModelMatrix(anchorMatrix, scaleFactor);
             heart.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
           case DIAMONDS: { //DIAMONDS suit from hand_determination.Card ***
-            isRed = true;
             diamond.updateModelMatrix(anchorMatrix, scaleFactor);
             diamond.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
@@ -710,6 +713,9 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
       // Avoid crashing the application due to unhandled exceptions.
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
+    if (showMessage) {
+        messageSnackbarHelper.showMessageWithDismiss(this, message);
+    }
   }
 
   // Handle only one tap per frame, as taps are usually low frequency compared to frame rate.
@@ -765,14 +771,5 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
       }
     }
   }
-
-  public void updateSuit(byte newSuit) {
-    currentSuit = newSuit;
-  }
-
-  public void updateValue(byte newCardValue) {
-    currentCardValue = newCardValue;
-  }
-
 
 }
