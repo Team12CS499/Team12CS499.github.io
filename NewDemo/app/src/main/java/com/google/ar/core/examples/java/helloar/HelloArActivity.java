@@ -84,11 +84,7 @@ import static hand_determination.Card.KING;
 import static hand_determination.Card.QUEEN;
 import static hand_determination.Card.SPADES;
 
-/**
- * This is a simple example that shows how to create an augmented reality (AR) application using the
- * ARCore API. The application will display any detected planes and will allow the user to tap on a
- * plane to place a 3d model of the Android robot.
- */
+
 public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
   private static final String TAG = HelloArActivity.class.getSimpleName();
 
@@ -629,21 +625,21 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         Card temp = cardTypes.get(coloredAnchor);
         boolean isRed = false;
         switch(temp.getSuit()) {
-          case HEARTS: { //DIAMONDS suit from hand_determination.Card
+          case HEARTS: { //DIAMONDS suit from hand_determination.Card ***
             isRed = true;
             heart.updateModelMatrix(anchorMatrix, scaleFactor);
             heart.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-          case DIAMONDS: { //DIAMONDS suit from hand_determination.Card
+          case DIAMONDS: { //DIAMONDS suit from hand_determination.Card ***
             isRed = true;
             diamond.updateModelMatrix(anchorMatrix, scaleFactor);
             diamond.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-          case CLUBS: { //CLUBS suit from hand_determination.Card
+          case CLUBS: { //CLUBS suit from hand_determination.Card ***
             club.updateModelMatrix(anchorMatrix, scaleFactor);
             club.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-          case SPADES: { //SPADES suit from hand_determination.Card
+          case SPADES: { //SPADES suit from hand_determination.Card ***
             spade.updateModelMatrix(anchorMatrix, scaleFactor);
             spade.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
@@ -739,9 +735,8 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
             trackingCards.remove(0);
           }
 
-          // Assign a color to the object for rendering based on the trackable type
-          // this anchor attached to. For AR_TRACKABLE_POINT, it's blue color, and
-          // for AR_TRACKABLE_PLANE, it's green color.
+          // Assign a color to the object for rendering based on the suit of card it's supposed to represent ***
+          // HEARTS and DIAMONDS are Red, while CLUBS and SPADES are black ***
           float[] objColor;
           if (currentSuit == HEARTS || currentSuit == DIAMONDS) {
             objColor = new float[] {255.0f, 255.0f, 0.0f, 0.0f};

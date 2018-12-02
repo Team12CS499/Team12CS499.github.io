@@ -69,7 +69,7 @@ public class Card
 		this.suit = suit;
 	}
 
-	//Added by Austin Williams for ease of displaying messages in the app.
+	//Added by Austin Williams for ease of displaying messages in the app. ***
 	public String toString() {
 		String result = "";
 		if (value == ACE_HIGH || value == ACE) {
