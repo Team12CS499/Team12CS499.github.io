@@ -26,6 +26,15 @@
     <item>Spades</item>
   </string-array>
 
+  <string name = "trumpPrompt">Trump</string>
+
+  <string-array name="trumpSuits">
+    <item>Hearts</item>
+    <item>Diamonds</item>
+    <item>Clubs</item>
+    <item>Spades</item>
+  </string-array>
+
 
   <string name="cardPrompt">Card Type</string>
 
