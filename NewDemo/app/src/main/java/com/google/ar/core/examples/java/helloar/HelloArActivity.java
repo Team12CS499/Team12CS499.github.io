@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
+//The following code was modified by Austin Williams for CS499 at the University of Kentucky ***
+//This is part of a project involving recognizing poker/euchre hands in an environment ***
+//And determining their value for either Euchre or Poker ***
+//You can tell my comments from those included by Google with this demo by the three asterixes ***
+//At the end of each line ***
+
 package com.google.ar.core.examples.java.helloar;
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.ArCoreApk;
@@ -32,6 +44,7 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Point;
 import com.google.ar.core.Point.OrientationMode;
 import com.google.ar.core.PointCloud;
+import com.google.ar.core.Pose;
 import com.google.ar.core.Session;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
@@ -59,6 +72,18 @@ import java.util.Map;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import hand_determination.Card;
+import hand_determination.Euchre;
+
+import static hand_determination.Card.ACE_HIGH;
+import static hand_determination.Card.CLUBS;
+import static hand_determination.Card.DIAMONDS;
+import static hand_determination.Card.HEARTS;
+import static hand_determination.Card.JACK;
+import static hand_determination.Card.KING;
+import static hand_determination.Card.QUEEN;
+import static hand_determination.Card.SPADES;
+
 /**
  * This is a simple example that shows how to create an augmented reality (AR) application using the
  * ARCore API. The application will display any detected planes and will allow the user to tap on a
@@ -78,15 +103,59 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
   private TapHelper tapHelper;
 
   private final BackgroundRenderer backgroundRenderer = new BackgroundRenderer();
-  private final ObjectRenderer virtualObject = new ObjectRenderer();
-  private final ObjectRenderer virtualObjectShadow = new ObjectRenderer();
+
+  private final ObjectRenderer heart = new ObjectRenderer();
+  private final ObjectRenderer club = new ObjectRenderer();
+  private final ObjectRenderer spade = new ObjectRenderer();
+  private final ObjectRenderer diamond = new ObjectRenderer();
+
+  private final ObjectRenderer ace = new ObjectRenderer();
+  private final ObjectRenderer two = new ObjectRenderer();
+  private final ObjectRenderer three = new ObjectRenderer();
+  private final ObjectRenderer four = new ObjectRenderer();
+  private final ObjectRenderer five = new ObjectRenderer();
+  private final ObjectRenderer six = new ObjectRenderer();
+  private final ObjectRenderer seven = new ObjectRenderer();
+  private final ObjectRenderer eight = new ObjectRenderer();
+  private final ObjectRenderer nine = new ObjectRenderer();
+  private final ObjectRenderer ten = new ObjectRenderer();
+  private final ObjectRenderer jack = new ObjectRenderer();
+  private final ObjectRenderer queen = new ObjectRenderer();
+  private final ObjectRenderer king = new ObjectRenderer();
+
+
   private final PlaneRenderer planeRenderer = new PlaneRenderer();
   private final PointCloudRenderer pointCloudRenderer = new PointCloudRenderer();
 
   // Temporary matrix allocated here to reduce number of allocations for each frame.
   private final float[] anchorMatrix = new float[16];
+
+  //Temporary matrix used to store a pose directly above the one of each Anchor, declared here for ***
+  //speed and optimization.  (reducing work load per frame rendered) ***
+  private final float[] topPoseMatrix = new float[16];
+
   private static final float[] DEFAULT_COLOR = new float[] {0f, 0f, 0f, 0f};
-  private Map <Point, handDetermination.Card> cardTypes;
+
+  //HashMap to map each anchor created to a card holding the suit and value that were selected ***
+  //At the time of anchor creation ***
+  private Map <ColoredAnchor, hand_determination.Card> cardTypes;
+
+  //bytes to store the current suit selected and the current card value ***
+  //These are used in the Card class to represent pre-specified values ***
+  private byte currentSuit;
+  private byte currentCardValue;
+  private byte trumpSuit;
+  private ArrayList<Card> trackingCards;
+
+  //Drop down menus to select the card value, card suit, and trump suit before tapping on a card in the environment ***
+  private Spinner valueSpinner;
+  private Spinner trumpSuitSpinner;
+  private Spinner suitSpinner;
+
+  //Buttons to clear out the currently selected cards, as well as to ***
+  //Get the winner of the Euchre trick/Poker hand from the cards presented.  ***
+  private Button resetButton;
+  private Button submitButton;
 
   // Anchors created from taps used for object placing with a given color.
   private static class ColoredAnchor {
@@ -121,7 +190,161 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
 
     installRequested = false;
 
+    //Map each anchor to a Card created from the suit and value selected when the anchor is created. ***
     cardTypes = new HashMap<>();
+
+    //byte values to represent the suit and value of the card the user is about to select ***
+    currentSuit = -1;
+    currentCardValue = -1;
+    trumpSuit = SPADES;
+
+    trackingCards = new ArrayList<Card>();
+
+    //add listeners to the drop down menus ***
+
+    //add listener to the value selection drop down, causing it to update currentCardValue accordingly ***
+    valueSpinner = findViewById(R.id.valueSpinner);
+    valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String selectedItem = adapterView.getItemAtPosition(i).toString();
+        switch (selectedItem) {
+          case "Two": {
+            currentCardValue = 2;
+          }
+          case "Three": {
+            currentCardValue = 3;
+          }
+          case "Four": {
+            currentCardValue = 4;
+          }
+          case "Five": {
+            currentCardValue = 5;
+          }
+          case "Six": {
+            currentCardValue = 6;
+          }
+          case "Seven": {
+            currentCardValue = 7;
+          }
+          case "Eight": {
+            currentCardValue = 8;
+          }
+          case "Nine": {
+            currentCardValue = 9;
+          }
+          case "Ten": {
+            currentCardValue = 10;
+          }
+          case "Jack": {
+            currentCardValue = JACK;
+          }
+          case "Queen": {
+            currentCardValue = QUEEN;
+          }
+          case "King": {
+            currentCardValue = KING;
+          }
+          case "Ace": {
+            currentCardValue = ACE_HIGH;
+          }
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+        //Do nothing ***
+      }
+    });
+
+    //add listener to the suit selection drop down, and update currentSuit accordingly ***
+    suitSpinner = findViewById(R.id.suitSpinner);
+    suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String selectedItem = adapterView.getItemAtPosition(i).toString();
+        switch (selectedItem) {
+          case "Hearts": {
+            currentSuit = HEARTS;
+          }
+          case "Diamonds": {
+            currentSuit = DIAMONDS;
+          }
+          case "Clubs": {
+            currentSuit = CLUBS;
+          }
+          case "Spades": {
+            currentSuit = SPADES;
+          }
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+        //Do nothing ***
+      }
+    });
+
+    //add listener to the trump suit selection drop down, and update trumpSuit accordingly ***
+    trumpSuitSpinner = findViewById(R.id.trumpSuitSpinner);
+    trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String selectedItem = adapterView.getItemAtPosition(i).toString();
+        switch (selectedItem) {
+          case "Hearts": {
+            trumpSuit = HEARTS;
+          }
+          case "Diamonds": {
+            trumpSuit = DIAMONDS;
+          }
+          case "Clubs": {
+            trumpSuit = CLUBS;
+          }
+          case "Spades": {
+            trumpSuit = SPADES;
+          }
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+        //Do nothing ***
+      }
+    });
+
+    //add listener to the Submit button, telling you which card wins of the ones you have selected ****
+    submitButton = findViewById(R.id.submitButton);
+    submitButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        if (trackingCards.size() == 0) {
+          messageSnackbarHelper.showMessageWithDismiss((Activity) view.getParent().getParent(), "No cards have been identified!");
+          return;
+        }
+        Card[] trick = new Card[trackingCards.size()];
+        for (int i = 0; i < trick.length; i++) {
+          trick[i] = trackingCards.get(i);
+        }
+        Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
+        String message = winningCard.toString() + " WINS!";
+        messageSnackbarHelper.showMessageWithDismiss((Activity) view.getParent().getParent(), message);
+      }
+    });
+
+    //add listener to the Reset button, erasing all of the 3D objects currently being rendered ***
+    //and removes them from the trackingCards array for the sake of counting towards a win ***
+    resetButton = findViewById(R.id.resetButton);
+    resetButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        trackingCards = new ArrayList<Card>();
+        while (anchors.size() > 0) {
+          anchors.get(0).anchor.detach();
+          anchors.remove(0);
+        }
+      }
+    });
   }
 
   @Override
@@ -236,13 +459,75 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
       planeRenderer.createOnGlThread(/*context=*/ this, "models/trigrid.png");
       pointCloudRenderer.createOnGlThread(/*context=*/ this);
 
-      virtualObject.createOnGlThread(/*context=*/ this, "models/andy.obj", "models/andy.png");
-      virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+      //Create the ObjectRenderers that will be used to render the 3D objects on the cards ***
 
-      virtualObjectShadow.createOnGlThread(
-          /*context=*/ this, "models/andy_shadow.obj", "models/andy_shadow.png");
-      virtualObjectShadow.setBlendMode(BlendMode.Shadow);
-      virtualObjectShadow.setMaterialProperties(1.0f, 0.0f, 0.0f, 1.0f);
+      //HEARTS object renderer ***
+      heart.createOnGlThread(/*context=*/ this, "models/Card Type Models/Heart.obj", "models/Card Type Models/red.png");
+      heart.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //DIAMONDS object renderer ***
+      diamond.createOnGlThread(/*context=*/ this, "models/Card Type Models/Diamond.obj", "models/Card Type Models/red.png");
+      diamond.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //CLUBS object renderer ***
+      club.createOnGlThread(/*context=*/ this, "models/Card Type Models/Club.obj", "models/Card Type Models/black.png");
+      club.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //SPADES object renderer ***
+      spade.createOnGlThread(/*context=*/ this, "models/Card Type Models/Spade.obj", "models/Card Type Models/black.png");
+      spade.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //ACE object renderer ***
+      ace.createOnGlThread(/*context=*/ this, "models/Card Type Models/Ace.obj", "models/Card Type Models/black.png");
+      ace.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //TWO object renderer ***
+      two.createOnGlThread(/*context=*/ this, "models/Card Type Models/Two.obj", "models/Card Type Models/black.png");
+      two.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //THREE object renderer ***
+      three.createOnGlThread(/*context=*/ this, "models/Card Type Models/Three.obj", "models/Card Type Models/black.png");
+      three.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //FOUR object renderer ***
+      four.createOnGlThread(/*context=*/ this, "models/Card Type Models/Four.obj", "models/Card Type Models/black.png");
+      four.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //FIVE object renderer ***
+      five.createOnGlThread(/*context=*/ this, "models/Card Type Models/Five.obj", "models/Card Type Models/black.png");
+      five.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //SIX object renderer ***
+      six.createOnGlThread(/*context=*/ this, "models/Card Type Models/Six.obj", "models/Card Type Models/black.png");
+      six.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //SEVEN object renderer ***
+      seven.createOnGlThread(/*context=*/ this, "models/Card Type Models/Seven.obj", "models/Card Type Models/black.png");
+      seven.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //EIGHT object renderer ***
+      eight.createOnGlThread(/*context=*/ this, "models/Card Type Models/Eight.obj", "models/Card Type Models/black.png");
+      eight.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //NINE object renderer ***
+      nine.createOnGlThread(/*context=*/ this, "models/Card Type Models/Nine.obj", "models/Card Type Models/black.png");
+      nine.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //TEN object renderer ***
+      ten.createOnGlThread(/*context=*/ this, "models/Card Type Models/Ten.obj", "models/Card Type Models/black.png");
+      ten.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //JACK object renderer ***
+      jack.createOnGlThread(/*context=*/ this, "models/Card Type Models/Jack.obj", "models/Card Type Models/black.png");
+      jack.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //QUEEN object renderer ***
+      queen.createOnGlThread(/*context=*/ this, "models/Card Type Models/Queen.obj", "models/Card Type Models/black.png");
+      queen.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+
+      //KING object renderer ***
+      king.createOnGlThread(/*context=*/ this, "models/Card Type Models/King.obj", "models/Card Type Models/black.png");
+      king.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
 
     } catch (IOException e) {
       Log.e(TAG, "Failed to read an asset file", e);
@@ -334,11 +619,95 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         // during calls to session.update() as ARCore refines its estimate of the world.
         coloredAnchor.anchor.getPose().toMatrix(anchorMatrix, 0);
 
-        // Update and draw the model and its shadow.
-        virtualObject.updateModelMatrix(anchorMatrix, scaleFactor);
-        virtualObjectShadow.updateModelMatrix(anchorMatrix, scaleFactor);
-        virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
-        virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+        //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
+        //its suit object ***
+        Pose topPose = coloredAnchor.anchor.getPose();
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+10, topPose.tz());
+        topPose.toMatrix(topPoseMatrix, 0);
+
+        //Determine the card suit so the correct object can be rendered in the environment ***
+        Card temp = cardTypes.get(coloredAnchor);
+        boolean isRed = false;
+        switch(temp.getSuit()) {
+          case HEARTS: { //DIAMONDS suit from hand_determination.Card
+            isRed = true;
+            heart.updateModelMatrix(anchorMatrix, scaleFactor);
+            heart.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case DIAMONDS: { //DIAMONDS suit from hand_determination.Card
+            isRed = true;
+            diamond.updateModelMatrix(anchorMatrix, scaleFactor);
+            diamond.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case CLUBS: { //CLUBS suit from hand_determination.Card
+            club.updateModelMatrix(anchorMatrix, scaleFactor);
+            club.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case SPADES: { //SPADES suit from hand_determination.Card
+            spade.updateModelMatrix(anchorMatrix, scaleFactor);
+            spade.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+        }
+
+        //Now determine the appropriate card value object to render, and render it above the suit ***
+        switch(temp.getValue()) {
+          case 2: {
+            two.updateModelMatrix(topPoseMatrix, scaleFactor);
+            two.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 3: {
+            three.updateModelMatrix(topPoseMatrix, scaleFactor);
+            three.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 4: {
+            four.updateModelMatrix(topPoseMatrix, scaleFactor);
+            four.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 5: {
+            five.updateModelMatrix(topPoseMatrix, scaleFactor);
+            five.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 6: {
+            six.updateModelMatrix(topPoseMatrix, scaleFactor);
+            six.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 7: {
+            seven.updateModelMatrix(topPoseMatrix, scaleFactor);
+            seven.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 8: {
+            eight.updateModelMatrix(topPoseMatrix, scaleFactor);
+            eight.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 9: {
+            nine.updateModelMatrix(topPoseMatrix, scaleFactor);
+            nine.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case 10: {
+            ten.updateModelMatrix(topPoseMatrix, scaleFactor);
+            ten.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case JACK: {
+            jack.updateModelMatrix(topPoseMatrix, scaleFactor);
+            jack.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case QUEEN: {
+            queen.updateModelMatrix(topPoseMatrix, scaleFactor);
+            queen.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case KING: {
+            king.updateModelMatrix(topPoseMatrix, scaleFactor);
+            king.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+          case ACE_HIGH: {
+            ace.updateModelMatrix(topPoseMatrix, scaleFactor);
+            ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+          }
+        }
+        //virtualObject.updateModelMatrix(anchorMatrix, scaleFactor);
+        //virtualObjectShadow.updateModelMatrix(anchorMatrix, scaleFactor);
+        //virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+        //virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
       }
 
     } catch (Throwable t) {
@@ -367,16 +736,17 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
           if (anchors.size() >= 20) {
             anchors.get(0).anchor.detach();
             anchors.remove(0);
+            trackingCards.remove(0);
           }
 
           // Assign a color to the object for rendering based on the trackable type
           // this anchor attached to. For AR_TRACKABLE_POINT, it's blue color, and
           // for AR_TRACKABLE_PLANE, it's green color.
           float[] objColor;
-          if (trackable instanceof Point) {
-            objColor = new float[] {66.0f, 133.0f, 244.0f, 255.0f};
-          } else if (trackable instanceof Plane) {
-            objColor = new float[] {139.0f, 195.0f, 74.0f, 255.0f};
+          if (currentSuit == HEARTS || currentSuit == DIAMONDS) {
+            objColor = new float[] {255.0f, 255.0f, 0.0f, 0.0f};
+          } else if (currentSuit == CLUBS || currentSuit == SPADES) {
+            objColor = new float[] {255.0f, 0.0f, 0.0f, 0.0f};
           } else {
             objColor = DEFAULT_COLOR;
           }
@@ -384,10 +754,30 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
           // Adding an Anchor tells ARCore that it should track this position in
           // space. This anchor is created on the Plane to place the 3D model
           // in the correct position relative both to the world and to the plane.
-          anchors.add(new ColoredAnchor(hit.createAnchor(), objColor));
+          ColoredAnchor newAnchor = new ColoredAnchor(hit.createAnchor(), objColor);
+
+          //Create a new card representing the one just tapped by the user, and add that card ***
+          //To the ArrayList representing the Euchre cards currently being tracked ***
+          Card newCard = new Card(currentSuit, currentCardValue);
+          trackingCards.add(newCard);
+
+          //Map the location the User just tapped to a particular Card ***
+          cardTypes.put(newAnchor, newCard);
+
+          anchors.add(newAnchor);
           break;
         }
       }
     }
   }
+
+  public void updateSuit(byte newSuit) {
+    currentSuit = newSuit;
+  }
+
+  public void updateValue(byte newCardValue) {
+    currentCardValue = newCardValue;
+  }
+
+
 }

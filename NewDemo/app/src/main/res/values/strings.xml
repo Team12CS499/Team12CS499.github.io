@@ -20,10 +20,10 @@
   <string name="suitPrompt">Suit</string>
 
   <string-array name="suits">
-    <item>Heart</item>
-    <item>Diamond</item>
-    <item>Club</item>
-    <item>Spade</item>
+    <item>Hearts</item>
+    <item>Diamonds</item>
+    <item>Clubs</item>
+    <item>Spades</item>
   </string-array>
 
 
