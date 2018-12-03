@@ -61,6 +61,15 @@ DevLog: 738
 Coding Presention: 109
 <p></p>
 Total: 4335
+
+<h2>DevNote 12/2</h2>
+<p></p>
+Kyle Nelson, Austin Williams and I met on Wednesday the 28th to discuss where we stood on the project. I worked on getting the ML Kit portion of the application up and running with the custom image model. I had been running into issues with the version of Android, as my phone, being a Google Pixel, updates to the very latest Android version, which can create compatability errors with the application. During this meeting, I had fixed this issue.
+<p></p>
+I have tried all weekend to get the ML Kit portion working. Getting the custom model has been a real challenge. All resources seemed to point me to creating a TensorFlow model on my system using a Python script on my computer. I've been attemping this, but it has difficult. Many of the resources are built for Unix/Linux and not for Windows. I found another resource called TensorFlow Lite that seemed to be less complex, but there is less documentation on this and I have not gotten that to work. Due to the time contraints, we have decided to go with a 'Plan B' that would produced a minimal viable product.
+<p></p>
+Updated word count with this dev log: 4536 words
+
 </body>
 
 </html>
