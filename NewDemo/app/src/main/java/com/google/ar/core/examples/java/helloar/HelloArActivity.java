@@ -609,7 +609,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
           session.getAllTrackables(Plane.class), camera.getDisplayOrientedPose(), projmtx);
 
       // Visualize anchors created by touch.
-      float scaleFactor = 1.0f;
+      float scaleFactor = 0.005f;
       for (ColoredAnchor coloredAnchor : anchors) {
         if (coloredAnchor.anchor.getTrackingState() != TrackingState.TRACKING) {
           continue;
@@ -621,7 +621,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+1, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.01f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         heart.updateModelMatrix(anchorMatrix, scaleFactor);
@@ -630,7 +630,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         ace.updateModelMatrix(topPoseMatrix, scaleFactor);
         ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
         //Determine the card suit so the correct object can be rendered in the environment ***
-        /*Card temp = cardTypes.get(coloredAnchor);
+        Card temp = cardTypes.get(coloredAnchor);
         switch(temp.getSuit()) {
           case HEARTS: { //DIAMONDS suit from hand_determination.Card ***
             heart.updateModelMatrix(anchorMatrix, scaleFactor);
@@ -648,10 +648,10 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
             spade.updateModelMatrix(anchorMatrix, scaleFactor);
             spade.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-        }*/
+        }
 
         //Now determine the appropriate card value object to render, and render it above the suit ***
-        /*switch(temp.getValue()) {
+        switch(temp.getValue()) {
           case 2: {
             two.updateModelMatrix(topPoseMatrix, scaleFactor);
             two.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
@@ -704,7 +704,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
             ace.updateModelMatrix(topPoseMatrix, scaleFactor);
             ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-        }*/
+        }
         //virtualObject.updateModelMatrix(anchorMatrix, scaleFactor);
         //virtualObjectShadow.updateModelMatrix(anchorMatrix, scaleFactor);
         //virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
