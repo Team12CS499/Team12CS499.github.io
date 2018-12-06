@@ -325,7 +325,8 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
               for (int i = 0; i < trick.length; i++) {
                   trick[i] = trackingCards.get(i);
               }
-              Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
+              //Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
+              Card winningCard = new Card((byte)11, (byte)3);
               message = winningCard.toString() + " WINS!";
           }
       }
@@ -609,7 +610,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
           session.getAllTrackables(Plane.class), camera.getDisplayOrientedPose(), projmtx);
 
       // Visualize anchors created by touch.
-      float scaleFactor = 0.005f;
+      float scaleFactor = 0.001f;
       for (ColoredAnchor coloredAnchor : anchors) {
         if (coloredAnchor.anchor.getTrackingState() != TrackingState.TRACKING) {
           continue;
@@ -621,7 +622,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.01f, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.5f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         heart.updateModelMatrix(anchorMatrix, scaleFactor);

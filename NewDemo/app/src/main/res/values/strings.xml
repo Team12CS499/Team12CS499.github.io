@@ -25,7 +25,7 @@
   <string name="cardPrompt">Card Type</string>
 
   <string-array name="cardType">
-    <item>One</item>
+    <item>Two</item>
     <item>Three</item>
     <item>Four</item>
     <item>Five</item>
