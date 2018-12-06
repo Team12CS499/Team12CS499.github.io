@@ -22,8 +22,6 @@
 
 package com.google.ar.core.examples.java.helloar;
 
-import android.app.Activity;
-import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -55,7 +53,6 @@ import com.google.ar.core.examples.java.common.helpers.SnackbarHelper;
 import com.google.ar.core.examples.java.common.helpers.TapHelper;
 import com.google.ar.core.examples.java.common.rendering.BackgroundRenderer;
 import com.google.ar.core.examples.java.common.rendering.ObjectRenderer;
-import com.google.ar.core.examples.java.common.rendering.ObjectRenderer.BlendMode;
 import com.google.ar.core.examples.java.common.rendering.PlaneRenderer;
 import com.google.ar.core.examples.java.common.rendering.PointCloudRenderer;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
@@ -85,8 +82,8 @@ import static hand_determination.Card.QUEEN;
 import static hand_determination.Card.SPADES;
 
 
-public class EuchreAugmenter extends AppCompatActivity implements GLSurfaceView.Renderer {
-  private static final String TAG = EuchreAugmenter.class.getSimpleName();
+public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
+  private static final String TAG = HelloArActivity.class.getSimpleName();
 
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
   private GLSurfaceView surfaceView;
@@ -627,8 +624,13 @@ public class EuchreAugmenter extends AppCompatActivity implements GLSurfaceView.
         topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+1, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
+        heart.updateModelMatrix(anchorMatrix, scaleFactor);
+        heart.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+
+        ace.updateModelMatrix(topPoseMatrix, scaleFactor);
+        ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
         //Determine the card suit so the correct object can be rendered in the environment ***
-        Card temp = cardTypes.get(coloredAnchor);
+        /*Card temp = cardTypes.get(coloredAnchor);
         switch(temp.getSuit()) {
           case HEARTS: { //DIAMONDS suit from hand_determination.Card ***
             heart.updateModelMatrix(anchorMatrix, scaleFactor);
@@ -646,10 +648,10 @@ public class EuchreAugmenter extends AppCompatActivity implements GLSurfaceView.
             spade.updateModelMatrix(anchorMatrix, scaleFactor);
             spade.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-        }
+        }*/
 
         //Now determine the appropriate card value object to render, and render it above the suit ***
-        switch(temp.getValue()) {
+        /*switch(temp.getValue()) {
           case 2: {
             two.updateModelMatrix(topPoseMatrix, scaleFactor);
             two.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
@@ -702,7 +704,7 @@ public class EuchreAugmenter extends AppCompatActivity implements GLSurfaceView.
             ace.updateModelMatrix(topPoseMatrix, scaleFactor);
             ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
           }
-        }
+        }*/
         //virtualObject.updateModelMatrix(anchorMatrix, scaleFactor);
         //virtualObjectShadow.updateModelMatrix(anchorMatrix, scaleFactor);
         //virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
@@ -744,10 +746,10 @@ public class EuchreAugmenter extends AppCompatActivity implements GLSurfaceView.
           // Assign a color to the object for rendering based on the suit of card it's supposed to represent ***
           // HEARTS and DIAMONDS are Red, while CLUBS and SPADES are black ***
           float[] objColor;
-          if (currentSuit == HEARTS || currentSuit == DIAMONDS) {
-            objColor = new float[] {255.0f, 255.0f, 0.0f, 0.0f};
-          } else if (currentSuit == CLUBS || currentSuit == SPADES) {
-            objColor = new float[] {255.0f, 0.0f, 0.0f, 0.0f};
+          if (trackable instanceof Point) {
+            objColor = new float[] {255.0f, 0.0f, 255.0f, 0.0f};
+          } else if (trackable instanceof Plane) {
+            objColor = new float[] {255.0f, 0.0f, 0.0f, 255.0f};
           } else {
             objColor = DEFAULT_COLOR;
           }
