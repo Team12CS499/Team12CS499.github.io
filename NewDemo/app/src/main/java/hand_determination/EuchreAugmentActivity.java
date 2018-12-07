@@ -20,7 +20,7 @@
 //You can tell my comments from those included by Google with this demo by the three asterixes ***
 //At the end of each line ***
 
-package com.google.ar.core.examples.java.helloar;
+package hand_determination;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -55,6 +55,7 @@ import com.google.ar.core.examples.java.common.rendering.BackgroundRenderer;
 import com.google.ar.core.examples.java.common.rendering.ObjectRenderer;
 import com.google.ar.core.examples.java.common.rendering.PlaneRenderer;
 import com.google.ar.core.examples.java.common.rendering.PointCloudRenderer;
+import com.google.ar.core.examples.java.helloar.R;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
 import com.google.ar.core.exceptions.UnavailableApkTooOldException;
 import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
@@ -69,9 +70,6 @@ import java.util.Map;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import hand_determination.Card;
-import hand_determination.Euchre;
-
 import static hand_determination.Card.ACE_HIGH;
 import static hand_determination.Card.CLUBS;
 import static hand_determination.Card.DIAMONDS;
@@ -82,8 +80,8 @@ import static hand_determination.Card.QUEEN;
 import static hand_determination.Card.SPADES;
 
 
-public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
-  private static final String TAG = HelloArActivity.class.getSimpleName();
+public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
+  private static final String TAG = EuchreAugmentActivity.class.getSimpleName();
 
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
   private GLSurfaceView surfaceView;
