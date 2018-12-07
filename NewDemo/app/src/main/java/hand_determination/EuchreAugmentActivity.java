@@ -85,7 +85,7 @@ import static hand_determination.Card.SPADES;
 public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
   private static final String TAG = EuchreAugmentActivity.class.getSimpleName();
 
-  private static final Boolean DEMO = false;
+  private static final Boolean DEMO = true;
   private static int demoTapCount = 1;
 
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
@@ -205,7 +205,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
     //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cardType, android.R.layout.simple_spinner_item);
     //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     //valueSpinner.setAdapter(adapter);
-    valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -257,11 +257,11 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });
+    });*/
 
     //add listener to the suit selection drop down, and update currentSuit accordingly ***
     suitSpinner = findViewById(R.id.suitSpinner);
-    suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -286,11 +286,11 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });
+    });*/
 
     //add listener to the trump suit selection drop down, and update trumpSuit accordingly ***
     trumpSuitSpinner = findViewById(R.id.trumpSuitSpinner);
-    trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -316,7 +316,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });
+    });*/
 
     //add listener to the Submit button, telling you which card wins of the ones you have selected ****
     submitButton = findViewById(R.id.submitButton);
