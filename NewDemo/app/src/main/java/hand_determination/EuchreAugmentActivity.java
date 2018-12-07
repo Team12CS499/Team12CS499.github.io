@@ -809,13 +809,13 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
           //Create a new card representing the one just tapped by the user, and add that card ***
           //To the ArrayList representing the Euchre cards currently being tracked ***
-          else {
+          /*else {
             String suitString = suitSpinner.getSelectedItem().toString();
             String valueString = valueSpinner.getSelectedItem().toString();
 
             currentSuit = parseSuit(suitString);
             currentCardValue = parseValue(valueString);
-          }
+          }*/
 
           Card newCard = new Card(currentSuit, currentCardValue);
           trackingCards.add(newCard);
