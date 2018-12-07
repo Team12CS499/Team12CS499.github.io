@@ -326,7 +326,8 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
                   trick[i] = trackingCards.get(i);
               }
               //Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
-              Card winningCard = new Card((byte)11, (byte)3);
+              //Card winningCard = new Card((byte)11, (byte)3);
+              Card winningCard = trick[0];
               message = winningCard.toString() + " WINS!";
           }
       }
@@ -622,7 +623,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.5f, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.003f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         heart.updateModelMatrix(anchorMatrix, scaleFactor);
