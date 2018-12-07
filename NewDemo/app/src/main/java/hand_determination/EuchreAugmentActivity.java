@@ -206,45 +206,46 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
+        message = "Selected Value: " + selectedItem;
         switch (selectedItem) {
           case "Two": {
-            currentCardValue = 2;
+            setCardType((byte)2);
           }
           case "Three": {
-            currentCardValue = 3;
+            setCardType((byte)3);
           }
           case "Four": {
-            currentCardValue = 4;
+            setCardType((byte)4);
           }
           case "Five": {
-            currentCardValue = 5;
+            setCardType((byte)5);
           }
           case "Six": {
-            currentCardValue = 6;
+            setCardType((byte)6);
           }
           case "Seven": {
-            currentCardValue = 7;
+            setCardType((byte)7);
           }
           case "Eight": {
-            currentCardValue = 8;
+            setCardType((byte)8);
           }
           case "Nine": {
-            currentCardValue = 9;
+            setCardType((byte)9);
           }
           case "Ten": {
-            currentCardValue = 10;
+            setCardType((byte)10);
           }
           case "Jack": {
-            currentCardValue = JACK;
+            setCardType((byte)JACK);
           }
           case "Queen": {
-            currentCardValue = QUEEN;
+            setCardType((byte)QUEEN);
           }
           case "King": {
-            currentCardValue = KING;
+            setCardType((byte)KING);
           }
           case "Ace": {
-            currentCardValue = ACE_HIGH;
+            setCardType((byte)ACE_HIGH);
           }
         }
       }
@@ -261,18 +262,19 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
+        message = "Selected Suit: " + selectedItem;
         switch (selectedItem) {
           case "Hearts": {
-            currentSuit = HEARTS;
+            setCurrentSuit(HEARTS);
           }
           case "Diamonds": {
-            currentSuit = DIAMONDS;
+            setCurrentSuit(DIAMONDS);
           }
           case "Clubs": {
-            currentSuit = CLUBS;
+            setCurrentSuit(CLUBS);
           }
           case "Spades": {
-            currentSuit = SPADES;
+            setCurrentSuit(SPADES);
           }
         }
       }
@@ -289,18 +291,20 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
+        message = "Selected Trump Suit: " + selectedItem;
+        showMessage = true;
         switch (selectedItem) {
           case "Hearts": {
-            trumpSuit = HEARTS;
+            setTrumpSuit(HEARTS);
           }
           case "Diamonds": {
-            trumpSuit = DIAMONDS;
+            setTrumpSuit(DIAMONDS);
           }
           case "Clubs": {
-            trumpSuit = CLUBS;
+            setTrumpSuit(CLUBS);
           }
           case "Spades": {
-            trumpSuit = SPADES;
+            setTrumpSuit(SPADES);
           }
         }
       }
@@ -604,14 +608,14 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       pointCloud.release();
 
       // Check if we detected at least one plane. If so, hide the loading message.
-      /*if (messageSnackbarHelper.isShowing()) {
+      if (messageSnackbarHelper.isShowing()) {
         for (Plane plane : session.getAllTrackables(Plane.class)) {
           if (plane.getTrackingState() == TrackingState.TRACKING) {
             messageSnackbarHelper.hide(this);
             break;
           }
         }
-      }*/
+      }
 
       // Visualize planes.
       planeRenderer.drawPlanes(
@@ -724,7 +728,9 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       Log.e(TAG, "Exception on the OpenGL thread", t);
     }
     if (showMessage) {
-        messageSnackbarHelper.showMessageWithDismiss(this, message);
+       Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+       toast.show();
+       showMessage = false;
     }
   }
 
@@ -752,8 +758,6 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             cardTypes.remove(anchors.get(0));
           }
 
-          // Assign a color to the object for rendering based on the suit of card it's supposed to represent ***
-          // HEARTS and DIAMONDS are Red, while CLUBS and SPADES are black ***
           float[] objColor;
           if (trackable instanceof Point) {
             objColor = new float[] {255.0f, 0.0f, 255.0f, 0.0f};
@@ -784,4 +788,15 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
     }
   }
 
+  public void setCardType(byte type) {
+    this.currentCardValue = type;
+  }
+
+  public void setTrumpSuit(byte tSuit) {
+    this.trumpSuit = tSuit;
+  }
+
+  public void setCurrentSuit(byte cSuit) {
+    this.currentSuit = cSuit;
+  }
 }
