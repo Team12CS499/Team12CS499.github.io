@@ -20,7 +20,7 @@
 //You can tell my comments from those included by Google with this demo by the three asterixes ***
 //At the end of each line ***
 
-package hand_determination;
+package com.google.ar.core.examples.java.helloar;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -55,7 +55,6 @@ import com.google.ar.core.examples.java.common.rendering.BackgroundRenderer;
 import com.google.ar.core.examples.java.common.rendering.ObjectRenderer;
 import com.google.ar.core.examples.java.common.rendering.PlaneRenderer;
 import com.google.ar.core.examples.java.common.rendering.PointCloudRenderer;
-import com.google.ar.core.examples.java.helloar.R;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
 import com.google.ar.core.exceptions.UnavailableApkTooOldException;
 import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
@@ -70,6 +69,9 @@ import java.util.Map;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import hand_determination.Card;
+import hand_determination.Euchre;
+
 import static hand_determination.Card.ACE_HIGH;
 import static hand_determination.Card.CLUBS;
 import static hand_determination.Card.DIAMONDS;
@@ -80,8 +82,8 @@ import static hand_determination.Card.QUEEN;
 import static hand_determination.Card.SPADES;
 
 
-public class EucherAugmentActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
-  private static final String TAG = EucherAugmentActivity.class.getSimpleName();
+public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
+  private static final String TAG = HelloArActivity.class.getSimpleName();
 
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
   private GLSurfaceView surfaceView;
@@ -320,8 +322,10 @@ public class EucherAugmentActivity extends AppCompatActivity implements GLSurfac
           } else {
               showMessage = true;
               Card[] trick = new Card[trackingCards.size()];
-              for (int i = 0; i < trick.length; i++) {
-                  trick[i] = trackingCards.get(i);
+              int counter = 0;
+              for (ColoredAnchor c: anchors) {
+                  trick[counter] = cardTypes.get(c);
+                  counter++;
               }
               Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
               //Card winningCard = new Card((byte)11, (byte)3);
@@ -344,6 +348,7 @@ public class EucherAugmentActivity extends AppCompatActivity implements GLSurfac
         while (anchors.size() > 0) {
           anchors.get(0).anchor.detach();
           anchors.remove(0);
+          cardTypes.clear();
         }
       }
     });
