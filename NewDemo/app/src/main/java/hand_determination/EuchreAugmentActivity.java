@@ -132,9 +132,9 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
   //bytes to store the current suit selected and the current card value ***
   //These are used in the Card class to represent pre-specified values ***
-  private byte currentSuit;
-  private byte currentCardValue;
-  private byte trumpSuit;
+  private static byte currentSuit;
+  private static byte currentCardValue;
+  private static byte trumpSuit;
   private ArrayList<Card> trackingCards;
   private String message;
   private boolean showMessage;
