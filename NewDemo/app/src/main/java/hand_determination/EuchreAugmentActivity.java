@@ -114,8 +114,6 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
   private final ObjectRenderer queen = new ObjectRenderer();
   private final ObjectRenderer king = new ObjectRenderer();
 
-
-
   private final PlaneRenderer planeRenderer = new PlaneRenderer();
   private final PointCloudRenderer pointCloudRenderer = new PointCloudRenderer();
 
@@ -627,7 +625,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.05f, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.1f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         //Determine the card suit so the correct object can be rendered in the environment ***
