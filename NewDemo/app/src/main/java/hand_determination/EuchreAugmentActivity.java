@@ -85,7 +85,7 @@ import static hand_determination.Card.SPADES;
 public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
   private static final String TAG = EuchreAugmentActivity.class.getSimpleName();
 
-  private static final Boolean DEMO = false;
+  private static final Boolean DEMO = true;
   private static int demoTapCount = 1;
 
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
@@ -212,43 +212,43 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         message = "Selected Value: " + selectedItem;
         switch (selectedItem) {
           case "Two": {
-            setCardType((byte)2);
+            currentCardValue = (byte)2;
           }
           case "Three": {
-            setCardType((byte)3);
+            currentCardValue = (byte)3;
           }
           case "Four": {
-            setCardType((byte)4);
+            currentCardValue = (byte)4;
           }
           case "Five": {
-            setCardType((byte)5);
+            currentCardValue = (byte)5;
           }
           case "Six": {
-            setCardType((byte)6);
+            currentCardValue = (byte)6;
           }
           case "Seven": {
-            setCardType((byte)7);
+            currentCardValue = (byte)7;
           }
           case "Eight": {
-            setCardType((byte)8);
+            currentCardValue = (byte)8;
           }
           case "Nine": {
-            setCardType((byte)9);
+            currentCardValue = (byte)9;
           }
           case "Ten": {
-            setCardType((byte)10);
+            currentCardValue = (byte)10;
           }
           case "Jack": {
-            setCardType((byte)JACK);
+            currentCardValue = JACK;
           }
           case "Queen": {
-            setCardType((byte)QUEEN);
+            currentCardValue = QUEEN;
           }
           case "King": {
-            setCardType((byte)KING);
+            currentCardValue = KING;
           }
           case "Ace": {
-            setCardType((byte)ACE_HIGH);
+            currentCardValue = ACE_HIGH;
           }
         }
       }
@@ -268,16 +268,16 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         message = "Selected Suit: " + selectedItem;
         switch (selectedItem) {
           case "Hearts": {
-            setCurrentSuit(HEARTS);
+            currentSuit = HEARTS;
           }
           case "Diamonds": {
-            setCurrentSuit(DIAMONDS);
+            currentSuit = DIAMONDS;
           }
           case "Clubs": {
-            setCurrentSuit(CLUBS);
+            currentSuit = CLUBS;
           }
           case "Spades": {
-            setCurrentSuit(SPADES);
+            currentSuit = SPADES;
           }
         }
       }
@@ -298,16 +298,16 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         showMessage = true;
         switch (selectedItem) {
           case "Hearts": {
-            setTrumpSuit(HEARTS);
+            trumpSuit = HEARTS;
           }
           case "Diamonds": {
-            setTrumpSuit(DIAMONDS);
+            trumpSuit = DIAMONDS;
           }
           case "Clubs": {
-            setTrumpSuit(CLUBS);
+            trumpSuit = CLUBS;
           }
           case "Spades": {
-            setTrumpSuit(SPADES);
+            trumpSuit = SPADES;
           }
         }
       }
