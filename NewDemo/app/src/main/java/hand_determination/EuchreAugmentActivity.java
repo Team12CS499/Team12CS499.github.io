@@ -70,6 +70,7 @@ import java.util.Map;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static hand_determination.Card.ACE;
 import static hand_determination.Card.ACE_HIGH;
 import static hand_determination.Card.CLUBS;
 import static hand_determination.Card.DIAMONDS;
@@ -599,14 +600,14 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       pointCloud.release();
 
       // Check if we detected at least one plane. If so, hide the loading message.
-      if (messageSnackbarHelper.isShowing()) {
+      /*if (messageSnackbarHelper.isShowing()) {
         for (Plane plane : session.getAllTrackables(Plane.class)) {
-          if (plane.getTrackingState() == TrackingState.TRACKING && !showMessage) {
+          if (plane.getTrackingState() == TrackingState.TRACKING) {
             messageSnackbarHelper.hide(this);
             break;
           }
         }
-      }
+      }*/
 
       // Visualize planes.
       planeRenderer.drawPlanes(
@@ -625,7 +626,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.1f, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+0.5f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         //Determine the card suit so the correct object can be rendered in the environment ***
@@ -651,6 +652,10 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
         //Now determine the appropriate card value object to render, and render it above the suit ***
         switch(temp.getValue()) {
+            case ACE: {
+                ace.updateModelMatrix(topPoseMatrix, scaleFactor);
+                ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+            }
           case 2: {
             two.updateModelMatrix(topPoseMatrix, scaleFactor);
             two.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
