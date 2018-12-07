@@ -627,7 +627,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.01f, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.05f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         //Determine the card suit so the correct object can be rendered in the environment ***
