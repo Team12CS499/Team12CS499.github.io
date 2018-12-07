@@ -202,7 +202,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
     //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cardType, android.R.layout.simple_spinner_item);
     //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     //valueSpinner.setAdapter(adapter);
-    valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -254,11 +254,11 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });
+    });*/
 
     //add listener to the suit selection drop down, and update currentSuit accordingly ***
     suitSpinner = findViewById(R.id.suitSpinner);
-    suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -283,11 +283,11 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });
+    });*/
 
     //add listener to the trump suit selection drop down, and update trumpSuit accordingly ***
     trumpSuitSpinner = findViewById(R.id.trumpSuitSpinner);
-    trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -313,7 +313,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });
+    });*/
 
     //add listener to the Submit button, telling you which card wins of the ones you have selected ****
     submitButton = findViewById(R.id.submitButton);
@@ -335,9 +335,6 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
               Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
               //Card winningCard = new Card((byte)11, (byte)3);
               //Card winningCard = trick[0];
-            /*for (int i = 0; i < trick.length; i++) {
-              message += trick[i].toString();
-            }*/
               message = winningCard.toString() + " WINS!";
           }
       }
@@ -774,6 +771,12 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
           //Create a new card representing the one just tapped by the user, and add that card ***
           //To the ArrayList representing the Euchre cards currently being tracked ***
+          String suitString = suitSpinner.getSelectedItem().toString();
+          String valueString = valueSpinner.getSelectedItem().toString();
+
+          currentSuit = parseSuit(suitString);
+          currentCardValue = parseValue(valueString);
+
           Card newCard = new Card(currentSuit, currentCardValue);
           trackingCards.add(newCard);
 
@@ -799,4 +802,72 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
   public void setCurrentSuit(byte cSuit) {
     this.currentSuit = cSuit;
   }
+
+  public byte parseSuit(String suitString) {
+    switch(suitString) {
+      case "Hearts": { //DIAMONDS suit from hand_determination.Card ***
+        return HEARTS;
+      }
+      case "Diamonds": { //DIAMONDS suit from hand_determination.Card ***
+        return DIAMONDS;
+      }
+      case "Clubs": { //CLUBS suit from hand_determination.Card ***
+        return CLUBS;
+      }
+      case "Spades": { //SPADES suit from hand_determination.Card ***
+        return SPADES;
+      }
+      default :{
+        return -1;
+      }
+    }
+  }
+
+  public byte parseValue(String valueString) {
+    switch(valueString) {
+      case "Two": {
+        return 2;
+      }
+      case "Three": {
+        return 3;
+      }
+      case "Four": {
+        return 4;
+      }
+      case "Five": {
+        return 5;
+      }
+      case "Six": {
+        return 6;
+      }
+      case "Seven": {
+        return 7;
+      }
+      case "Eight": {
+        return 8;
+      }
+      case "Nine": {
+        return 9;
+      }
+      case "Ten": {
+        return 10;
+      }
+      case "Jack": {
+        return JACK;
+      }
+      case "Queen": {
+        return QUEEN;
+      }
+      case "King": {
+        return KING;
+      }
+      case "Ace": {
+        return ACE_HIGH;
+      }
+      default : {
+        return -1;
+      }
+    }
+  }
+
 }
