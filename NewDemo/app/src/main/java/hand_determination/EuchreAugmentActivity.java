@@ -205,7 +205,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
     //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cardType, android.R.layout.simple_spinner_item);
     //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     //valueSpinner.setAdapter(adapter);
-    /*valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -257,11 +257,11 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });*/
+    });
 
     //add listener to the suit selection drop down, and update currentSuit accordingly ***
     suitSpinner = findViewById(R.id.suitSpinner);
-    /*suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -286,11 +286,11 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });*/
+    });
 
     //add listener to the trump suit selection drop down, and update trumpSuit accordingly ***
     trumpSuitSpinner = findViewById(R.id.trumpSuitSpinner);
-    /*trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    trumpSuitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String selectedItem = adapterView.getItemAtPosition(i).toString();
@@ -316,7 +316,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
       public void onNothingSelected(AdapterView<?> adapterView) {
         //Do nothing ***
       }
-    });*/
+    });
 
     //add listener to the Submit button, telling you which card wins of the ones you have selected ****
     submitButton = findViewById(R.id.submitButton);
@@ -812,13 +812,13 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
           //Create a new card representing the one just tapped by the user, and add that card ***
           //To the ArrayList representing the Euchre cards currently being tracked ***
-          else {
+          /*else {
             String suitString = suitSpinner.getSelectedItem().toString();
             String valueString = valueSpinner.getSelectedItem().toString();
 
             currentSuit = parseSuit(suitString);
             currentCardValue = parseValue(valueString);
-          }
+          }*/
 
           Card newCard = new Card(currentSuit, currentCardValue);
           trackingCards.add(newCard);
@@ -834,7 +834,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
     }
   }
 
-  /*public void setCardType(byte type) {
+  public void setCardType(byte type) {
     this.currentCardValue = type;
   }
 
@@ -844,7 +844,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
   public void setCurrentSuit(byte cSuit) {
     this.currentSuit = cSuit;
-  }*/
+  }
 
   public byte parseSuit(String suitString) {
     switch(suitString) {
