@@ -270,6 +270,8 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             currentSuit = SPADES;
           }
         }
+        message = "selected suit: " + selectedItem;
+        showMessage = true;
       }
 
       @Override
@@ -298,6 +300,8 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             trumpSuit = SPADES;
           }
         }
+        message = "trump suit: " + trumpSuit;
+        showMessage = true;
       }
 
       @Override
