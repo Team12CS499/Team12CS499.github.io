@@ -325,10 +325,13 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
               for (int i = 0; i < trick.length; i++) {
                   trick[i] = trackingCards.get(i);
               }
-              //Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
+              Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
               //Card winningCard = new Card((byte)11, (byte)3);
-              Card winningCard = trick[0];
-              message = winningCard.toString() + " WINS!";
+              //Card winningCard = trick[0];
+            for (int i = 0; i < trick.length; i++) {
+              message += trick[i].toString();
+            }
+              //message = winningCard.toString() + " WINS!";
           }
       }
     });
@@ -599,7 +602,7 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
       // Check if we detected at least one plane. If so, hide the loading message.
       if (messageSnackbarHelper.isShowing()) {
         for (Plane plane : session.getAllTrackables(Plane.class)) {
-          if (plane.getTrackingState() == TrackingState.TRACKING) {
+          if (plane.getTrackingState() == TrackingState.TRACKING && !showMessage) {
             messageSnackbarHelper.hide(this);
             break;
           }
@@ -623,14 +626,9 @@ public class HelloArActivity extends AppCompatActivity implements GLSurfaceView.
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.003f, topPose.tz());
+        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+.01f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
-        heart.updateModelMatrix(anchorMatrix, scaleFactor);
-        heart.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
-
-        ace.updateModelMatrix(topPoseMatrix, scaleFactor);
-        ace.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
         //Determine the card suit so the correct object can be rendered in the environment ***
         Card temp = cardTypes.get(coloredAnchor);
         switch(temp.getSuit()) {
