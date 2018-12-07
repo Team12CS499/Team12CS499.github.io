@@ -335,10 +335,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
                   trick[counter] = cardTypes.get(c);
                   counter++;
               }
-              if (!DEMO) {
-                trumpSuit = parseSuit(trumpSuitSpinner.getSelectedItem().toString());
-              }
-              else {
+              if (DEMO) {
                 trumpSuit = SPADES;
               }
               Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
