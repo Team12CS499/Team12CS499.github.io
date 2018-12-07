@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -133,9 +134,9 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
   //bytes to store the current suit selected and the current card value ***
   //These are used in the Card class to represent pre-specified values ***
-  private static byte currentSuit;
-  private static byte currentCardValue;
-  private static byte trumpSuit;
+  public static byte currentSuit;
+  public static byte currentCardValue;
+  public static byte trumpSuit;
   private ArrayList<Card> trackingCards;
   private String message;
   private boolean showMessage;
@@ -198,6 +199,9 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
     //add listener to the value selection drop down, causing it to update currentCardValue accordingly ***
     valueSpinner = findViewById(R.id.valueSpinner);
+    //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cardType, android.R.layout.simple_spinner_item);
+    //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    //valueSpinner.setAdapter(adapter);
     valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -626,7 +630,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
         //Creating a pose above the position of the Anchor so that the card value object can be rendered above ***
         //its suit object ***
         Pose topPose = coloredAnchor.anchor.getPose();
-        topPose = Pose.makeTranslation(topPose.tx(), topPose.ty()+0.5f, topPose.tz());
+        topPose.makeTranslation(topPose.tx(), topPose.ty()+0.2f, topPose.tz());
         topPose.toMatrix(topPoseMatrix, 0);
 
         //Determine the card suit so the correct object can be rendered in the environment ***
@@ -771,7 +775,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
           //Map the location the User just tapped to a particular Card ***
           cardTypes.put(newAnchor, newCard);
-          message = "Place Card: " + newCard.toString();
+          message = "Placed Card: " + newCard.toString();
           showMessage = true;
           anchors.add(newAnchor);
           break;
