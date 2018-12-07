@@ -85,6 +85,9 @@ import static hand_determination.Card.SPADES;
 public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfaceView.Renderer {
   private static final String TAG = EuchreAugmentActivity.class.getSimpleName();
 
+  private static final Boolean DEMO = false;
+  private static int demoTapCount = 1;
+
   // Rendering. The Renderers are created here, and initialized when the GL surface is created.
   private GLSurfaceView surfaceView;
 
@@ -769,13 +772,47 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
           // in the correct position relative both to the world and to the plane.
           ColoredAnchor newAnchor = new ColoredAnchor(hit.createAnchor(), objColor);
 
+          //Hard-coded cards to test 3D Objects for Demo video ***
+          if (DEMO)  {
+            trumpSuit = SPADES;
+            switch(demoTapCount) {
+              case 1: {
+                currentSuit = 3;
+                currentCardValue = JACK; //Jack of Spades ***
+                demoTapCount++;
+              }
+              case 2: {
+                currentSuit = 0;
+                currentCardValue = QUEEN; //Queen of Hearts ***
+                demoTapCount++;
+              }
+              case 3: {
+                currentSuit = 2;
+                currentCardValue = 10; //10 of Clubs ***
+                demoTapCount++;
+              }
+              case 4: {
+                currentSuit = 1;
+                currentCardValue = 8; //8 of Diamonds ***
+                demoTapCount++;
+              }
+              default :{
+                currentSuit = 3;
+                currentCardValue = ACE_HIGH; //Ace of Spades ***
+                demoTapCount = 0;
+              }
+            }
+          }
+
           //Create a new card representing the one just tapped by the user, and add that card ***
           //To the ArrayList representing the Euchre cards currently being tracked ***
-          String suitString = suitSpinner.getSelectedItem().toString();
-          String valueString = valueSpinner.getSelectedItem().toString();
+          else {
+            String suitString = suitSpinner.getSelectedItem().toString();
+            String valueString = valueSpinner.getSelectedItem().toString();
 
-          currentSuit = parseSuit(suitString);
-          currentCardValue = parseValue(valueString);
+            currentSuit = parseSuit(suitString);
+            currentCardValue = parseValue(valueString);
+          }
 
           Card newCard = new Card(currentSuit, currentCardValue);
           trackingCards.add(newCard);
@@ -791,7 +828,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
     }
   }
 
-  public void setCardType(byte type) {
+  /*public void setCardType(byte type) {
     this.currentCardValue = type;
   }
 
@@ -801,7 +838,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
   public void setCurrentSuit(byte cSuit) {
     this.currentSuit = cSuit;
-  }
+  }*/
 
   public byte parseSuit(String suitString) {
     switch(suitString) {
