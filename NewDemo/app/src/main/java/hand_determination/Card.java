@@ -99,7 +99,7 @@ public class Card
 		else if (suit == CLUBS) {
 			result += "CLUBS";
 		}
-		else if (suit == SPADES) {
+		else {
 			result += "SPADES";
 		}
 		return result;
