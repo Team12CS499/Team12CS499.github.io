@@ -270,8 +270,6 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             currentSuit = SPADES;
           }
         }
-        message = "selected suit: " + selectedItem;
-        showMessage = true;
       }
 
       @Override
@@ -300,8 +298,6 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             trumpSuit = SPADES;
           }
         }
-        message = "trump suit: " + trumpSuit;
-        showMessage = true;
       }
 
       @Override
@@ -330,10 +326,10 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
               Card winningCard = trick[Euchre.trickWinner(trick, trumpSuit)];
               //Card winningCard = new Card((byte)11, (byte)3);
               //Card winningCard = trick[0];
-            for (int i = 0; i < trick.length; i++) {
+            /*for (int i = 0; i < trick.length; i++) {
               message += trick[i].toString();
-            }
-              //message = winningCard.toString() + " WINS!";
+            }*/
+              message = winningCard.toString() + " WINS!";
           }
       }
     });
@@ -744,6 +740,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             anchors.get(0).anchor.detach();
             anchors.remove(0);
             trackingCards.remove(0);
+            cardTypes.remove(anchors.get(0));
           }
 
           // Assign a color to the object for rendering based on the suit of card it's supposed to represent ***
@@ -769,7 +766,8 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
 
           //Map the location the User just tapped to a particular Card ***
           cardTypes.put(newAnchor, newCard);
-
+          message = "Place Card: " + newCard.toString();
+          showMessage = true;
           anchors.add(newAnchor);
           break;
         }
