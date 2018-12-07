@@ -817,7 +817,7 @@ public class EuchreAugmentActivity extends AppCompatActivity implements GLSurfac
             currentCardValue = parseValue(valueString);
           }*/
 
-          Card newCard = new Card(currentSuit, currentCardValue);
+          Card newCard = new Card(currentCardValue, currentSuit);
           trackingCards.add(newCard);
 
           //Map the location the User just tapped to a particular Card ***
